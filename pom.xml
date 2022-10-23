@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>lein-sealog</groupId>
+  <groupId>com.wallbrew</groupId>
   <artifactId>lein-sealog</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0</version>
@@ -16,6 +16,9 @@
   </licenses>
   <scm>
     <url>https://github.com/Wall-Brew-Co/sealog</url>
+    <connection>scm:git:git://github.com/Wall-Brew-Co/lein-sealog.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/Wall-Brew-Co/lein-sealog.git</developerConnection>
+    <tag>55e64a6497bd299730d702a8f7845f5bfd83e8cf</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
