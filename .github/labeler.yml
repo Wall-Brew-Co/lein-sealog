@@ -1,0 +1,13 @@
+dotfiles:
+  - .github/**/*
+  - .gitignore
+
+restricted:
+  - LICENSE
+  - CONTRIBUTING.md
+  - CODE_OF_CONDUCT.md
+  - CODEOWNERS
+  - .github/**/*
+  - .cljstyle
+  - SECURITY.md
+
