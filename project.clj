@@ -4,7 +4,7 @@
   :license {:name "MIT"
             :url  "https://opensource.org/licenses/MIT"}
   :scm {:name "git"
-        :url  "https://github.com/Wall-Brew-Co/sealog"}
+        :url  "https://github.com/Wall-Brew-Co/lein-sealog"}
   :dependencies [[java-time-literals/java-time-literals "2018-04-06"]
                  [metosin/spec-tools "0.10.5"]
                  [org.clojure/clojure "1.11.1"]

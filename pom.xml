@@ -15,10 +15,10 @@
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/Wall-Brew-Co/sealog</url>
+    <url>https://github.com/Wall-Brew-Co/lein-sealog</url>
     <connection>scm:git:git://github.com/Wall-Brew-Co/lein-sealog.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Wall-Brew-Co/lein-sealog.git</developerConnection>
-    <tag>3e5de3a09e6654de53ca440468974b161840bb7a</tag>
+    <tag>422caf4d46c4128019e982e15c4d2d63c6ffd1c8</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>

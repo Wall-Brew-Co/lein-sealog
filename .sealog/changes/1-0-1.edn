@@ -1,0 +1,6 @@
+{:version      {:major 1
+                :minor 0
+                :patch 1}
+ :version-type :semver3
+ :changes      {:fixed      ["Corrected SCM information in leiningen project file."]}
+ :timestamp    "2022-10-23T16:29:40.223306Z"}
