@@ -1,5 +1,9 @@
 # Sealog
 
+[![Clojars Project](https://img.shields.io/clojars/v/com.wallbrew/lein-sealog.svg)](https://clojars.org/com.wallbrew/lein-sealog)
+[![GitHub](https://img.shields.io/github/license/Wall-Brew-Co/lein-sealog)](https://github.com/Wall-Brew-Co/lein-sealog/blob/master/LICENSE)
+[![Twitter Follow](https://img.shields.io/twitter/follow/WallBrew?style=social)](https://twitter.com/WallBrew)
+
 A Wall Brew [Leiningen](https://leiningen.org/) plugin for automating CHANGELOG management for projects using [Semantic Versioning 2.0](https://semver.org/ "The core specification of Semantic Versioning")
 
 ## Rationale
@@ -14,11 +18,11 @@ Sealog is a tool intended help automate:
 
 ## Installation
 
-Sealog is available as a leiningen plugin and can be downloaded from clojars.
+Sealog is available as a leiningen plugin and can be downloaded from [clojars](https://clojars.org/com.wallbrew/lein-sealog).
 To install Sealog, add the following in your `:plugins` list in your `project.clj` file:
 
 ```clj
-[lein-sealog "1.0.0"]
+[com.wallbrew/lein-sealog "1.0.0"]
 ```
 
 The first time you invoke this plugin, Leiningen will automatically fetch the dependency for you.

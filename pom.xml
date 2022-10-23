@@ -18,7 +18,7 @@
     <url>https://github.com/Wall-Brew-Co/sealog</url>
     <connection>scm:git:git://github.com/Wall-Brew-Co/lein-sealog.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Wall-Brew-Co/lein-sealog.git</developerConnection>
-    <tag>55e64a6497bd299730d702a8f7845f5bfd83e8cf</tag>
+    <tag>3e5de3a09e6654de53ca440468974b161840bb7a</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
