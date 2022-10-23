@@ -48,12 +48,6 @@
                     {:filename filename}))))
 
 
-(defn sealog-initialized?
-  "Returns true if the sealog directory exists."
-  []
-  (file-exists? config/changelog-directory))
-
-
 (defn load-changelog-directory!
   "Load the changelog directory into a map of version to changelog entries."
   []

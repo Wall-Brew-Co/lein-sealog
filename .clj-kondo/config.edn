@@ -1,7 +1,7 @@
 {:output  {:pattern "::{{level}} file={{filename}},line={{row}},col={{col}}::{{message}}"}
  :lint-as {com.wallbrew.spoon.core/when-let+ clojure.core/let}
  :linters {:unresolved-symbol                     {:exclude [(clojure.test/is [match?])
-                                                             clojure.test.check.clojure-test/defspec]}
+                                                             (clojure.test.check.clojure-test/defspec)]}
            :refer-all                             {:exclude #{clojure.test cljs.test clojure.pprint}}
            :consistent-alias                      {:aliases {clojure.java.io io
                                                              clojure.pprint  pprint
