@@ -100,7 +100,7 @@
   [changelog]
   (let [->header (fn [entry]
                    (let [entry-title (->entry-title entry)
-                         entry-link  (str/replace entry-title #" " "-")]
+                         entry-link  (str/replace (str/replace entry-title #" " "-") #"\." "")]
                      (format "* [%s](#%s)" entry-title entry-link)))
         toc      (mapv ->header changelog)]
     (concatv ["## Table of Contents" ""] toc [""])))

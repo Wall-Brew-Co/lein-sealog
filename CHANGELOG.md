@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
-* [1.0.0 - 2022-10-23](#1.0.0---2022-10-23)
+* [1.0.0 - 2022-10-23](#100---2022-10-23)
 
 ## 1.0.0 - 2022-10-23
 
