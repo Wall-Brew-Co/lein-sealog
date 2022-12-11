@@ -17,7 +17,7 @@
 
 
 (def ^:const schemes
-  "The types of version bumps that are supported by sealong."
+  "The types of version bumps that are supported by sealog."
   {:semver3 {:title "Semantic Versioning"
              :link  "https://semver.org/spec/v2.0.0.html"}})
 
