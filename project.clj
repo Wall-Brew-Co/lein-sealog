@@ -12,7 +12,8 @@
                  [org.clojure/clojure "1.11.1"]
                  [org.clojure/core.match "1.0.0"]
                  [org.clojure/test.check "1.1.1"]]
-  :plugins [[com.wallbrew/lein-sealog "1.0.1"]]
+  :plugins [[com.wallbrew/lein-sealog "1.0.1"]
+            [lein-project-version "0.1.0"]]
   :deploy-repositories [["clojars" {:url           "https://clojars.org/repo"
                                     :username      :env/clojars_user
                                     :password      :env/clojars_pass
