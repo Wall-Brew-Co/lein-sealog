@@ -1,4 +1,4 @@
-{:version {:major 1, :minor 0, :patch 2}, 
- :version-type :semver3, 
- :changes {:fixed ["Updated footer link to point to the public repository"]}, 
+{:version {:major 1, :minor 0, :patch 2},
+ :version-type :semver3,
+ :changes {:fixed ["Updated footer link to point to the public repository"]},
  :timestamp "2022-12-11T15:51:59.959778100Z"}
