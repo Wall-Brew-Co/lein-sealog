@@ -1,5 +1,5 @@
 (ns leiningen.sealog.types.changelog
-  (:require [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as spec]
             [clojure.string :as str]
             [leiningen.sealog.types.changes :as changes]
             [leiningen.sealog.types.common :as types]
@@ -25,44 +25,44 @@
 
 
 ;; Specs for changelog entires
-(s/def ::version
+(spec/def ::version
   (st/spec
-    {:type        :map
-     :spec        (s/or :semver3 ::semver3/version)
-     :description "A single line of text describing a change."}))
+   {:type        :map
+    :spec        (spec/or :semver3 ::semver3/version)
+    :description "A single line of text describing a change."}))
 
 
-(s/def ::version-type
+(spec/def ::version-type
   (st/spec
-    {:type        :keyword
-     :spec        ::types/scheme
-     :description "The type of version number."}))
+   {:type        :keyword
+    :spec        ::types/scheme
+    :description "The type of version number."}))
 
 
-(s/def ::timestamp
+(spec/def ::timestamp
   (st/spec
-    {:spec        inst?
-     :description "The time the changelog entry was written."}))
+   {:spec        inst?
+    :description "The time the changelog entry was written."}))
 
 
-(s/def ::entry
+(spec/def ::entry
   (st/spec
-    {:type        :map
-     :spec        (s/keys :req-un [::version
-                                   ::version-type
-                                   ::changes/changes
-                                   ;; ::timestamp
-                                   ])
-     :description "The changes for a single version."}))
+   {:type        :map
+    :spec        (spec/keys :req-un [::version
+                                     ::version-type
+                                     ::changes/changes
+                                      ;; ::timestamp
+                                     ])
+    :description "The changes for a single version."}))
 
 
-(s/def ::changelog
+(spec/def ::changelog
   (st/spec
-    {:type        :vector
-     :spec        (s/and (s/coll-of ::entry :distinct true)
-                         #(distinct-versions? %)
-                         #(same-version-type? %))
-     :description "A vector of changelog entries."}))
+   {:type        :vector
+    :spec        (spec/and (spec/coll-of ::entry :distinct true)
+                           distinct-versions?
+                           same-version-type?)
+    :description "A vector of changelog entries."}))
 
 
 (defn compare-changelog-versions

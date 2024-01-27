@@ -95,7 +95,12 @@
 
 ;; Property-based tests
 
-(declare compare-versions-range)
+(declare compare-versions-range
+         sort-ascending-idempotentcy-test
+         sort-descending-idempotentcy-test
+         sort-reversal-test
+         render-reversal-test
+         bump-ordering-test)
 
 (check.test/defspec
   compare-versions-range 100

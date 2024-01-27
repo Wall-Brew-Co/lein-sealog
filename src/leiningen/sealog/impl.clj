@@ -1,7 +1,7 @@
 (ns leiningen.sealog.impl
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [clojure.spec.alpha :as s]
+            [clojure.spec.alpha :as spec]
             [clojure.string :as str]
             [leiningen.sealog.config :as config]
             [leiningen.sealog.types.changelog :as changelog]
@@ -39,11 +39,11 @@
   [filename spec]
   (if (file-exists? filename)
     (let [contents (st/coerce spec (edn/read-string (slurp filename)) st/string-transformer)]
-      (if (s/valid? spec contents)
+      (if (spec/valid? spec contents)
         contents
         (throw (ex-info (str "Invalid file contents: " filename)
                         {:filename filename
-                         :errors   (s/explain-data spec contents)}))))
+                         :errors   (spec/explain-data spec contents)}))))
     (throw (ex-info "Not matching file exists!"
                     {:filename filename}))))
 

@@ -1,5 +1,5 @@
 (ns leiningen.sealog.types.changes-test
-  (:require [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as spec]
             [clojure.spec.gen.alpha :as gen]
             [clojure.test :refer [deftest is testing]]
             [leiningen.sealog.types.changes :as sut]))
@@ -11,7 +11,7 @@
    :no-doc true}
   [spec]
   (try
-    (every? #(s/valid? spec %) (gen/sample (s/gen spec)))
+    (every? #(spec/valid? spec %) (gen/sample (spec/gen spec)))
     (catch Exception e
       (println (str "Failed to generate a value for spec: " spec))
       (println e)
