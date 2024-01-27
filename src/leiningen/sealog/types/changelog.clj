@@ -27,42 +27,42 @@
 ;; Specs for changelog entires
 (spec/def ::version
   (st/spec
-   {:type        :map
-    :spec        (spec/or :semver3 ::semver3/version)
-    :description "A single line of text describing a change."}))
+    {:type        :map
+     :spec        (spec/or :semver3 ::semver3/version)
+     :description "A single line of text describing a change."}))
 
 
 (spec/def ::version-type
   (st/spec
-   {:type        :keyword
-    :spec        ::types/scheme
-    :description "The type of version number."}))
+    {:type        :keyword
+     :spec        ::types/scheme
+     :description "The type of version number."}))
 
 
 (spec/def ::timestamp
   (st/spec
-   {:spec        inst?
-    :description "The time the changelog entry was written."}))
+    {:spec        inst?
+     :description "The time the changelog entry was written."}))
 
 
 (spec/def ::entry
   (st/spec
-   {:type        :map
-    :spec        (spec/keys :req-un [::version
-                                     ::version-type
-                                     ::changes/changes
+    {:type        :map
+     :spec        (spec/keys :req-un [::version
+                                      ::version-type
+                                      ::changes/changes
                                       ;; ::timestamp
-                                     ])
-    :description "The changes for a single version."}))
+                                      ])
+     :description "The changes for a single version."}))
 
 
 (spec/def ::changelog
   (st/spec
-   {:type        :vector
-    :spec        (spec/and (spec/coll-of ::entry :distinct true)
-                           distinct-versions?
-                           same-version-type?)
-    :description "A vector of changelog entries."}))
+    {:type        :vector
+     :spec        (spec/and (spec/coll-of ::entry :distinct true)
+                            distinct-versions?
+                            same-version-type?)
+     :description "A vector of changelog entries."}))
 
 
 (defn compare-changelog-versions

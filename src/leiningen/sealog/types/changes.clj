@@ -66,9 +66,9 @@
   (st/spec
     {:type        :map
      :spec        (spec/keys :opt-un [::added
-                                   ::changed
-                                   ::deprecated
-                                   ::removed
-                                   ::fixed
-                                   ::security ::misc])
+                                      ::changed
+                                      ::deprecated
+                                      ::removed
+                                      ::fixed
+                                      ::security ::misc])
      :description "A map of change types to vectors of change notes."}))

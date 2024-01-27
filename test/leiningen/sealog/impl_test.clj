@@ -33,6 +33,7 @@
 (declare render-changes-sequence-of-strings
          render-changelog-string)
 
+
 (check.test/defspec
   render-changes-sequence-of-strings 100
   (prop/for-all
