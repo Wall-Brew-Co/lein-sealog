@@ -1,5 +1,5 @@
 (ns leiningen.sealog.types.schemes.semver3-test
-  (:require [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as spec]
             [clojure.spec.gen.alpha :as gen]
             [clojure.test :refer [deftest is testing]]
             [clojure.test.check.clojure-test :as check.test]
@@ -13,7 +13,7 @@
    :no-doc true}
   [spec]
   (try
-    (every? #(s/valid? spec %) (gen/sample (s/gen spec)))
+    (every? #(spec/valid? spec %) (gen/sample (spec/gen spec)))
     (catch Exception e
       (println (str "Failed to generate a value for spec: " spec))
       (println e)
@@ -95,18 +95,20 @@
 
 ;; Property-based tests
 
+(declare compare-versions-range)
+
 (check.test/defspec
   compare-versions-range 100
   (prop/for-all
-    [v1 (s/gen ::sut/version)
-     v2 (s/gen ::sut/version)]
+    [v1 (spec/gen ::sut/version)
+     v2 (spec/gen ::sut/version)]
     (#{-1 0 1} (sut/compare-versions v1 v2))))
 
 
 (check.test/defspec
   sort-ascending-idempotentcy-test 100
   (prop/for-all
-    [versions (s/gen (s/coll-of ::sut/version))]
+    [versions (spec/gen (spec/coll-of ::sut/version))]
     (= (sut/sort-versions-ascending versions)
        (sut/sort-versions-ascending (sut/sort-versions-ascending versions)))))
 
@@ -114,7 +116,7 @@
 (check.test/defspec
   sort-descending-idempotentcy-test 100
   (prop/for-all
-    [versions (s/gen (s/coll-of ::sut/version))]
+    [versions (spec/gen (spec/coll-of ::sut/version))]
     (= (sut/sort-versions-descending versions)
        (sut/sort-versions-descending (sut/sort-versions-descending versions)))))
 
@@ -122,7 +124,7 @@
 (check.test/defspec
   sort-reversal-test 100
   (prop/for-all
-    [versions (s/gen (s/coll-of ::sut/version))]
+    [versions (spec/gen (spec/coll-of ::sut/version))]
     (= (sut/sort-versions-ascending versions)
        (reverse (sut/sort-versions-descending versions)))))
 
@@ -130,7 +132,7 @@
 (check.test/defspec
   render-reversal-test 100
   (prop/for-all
-    [version (s/gen ::sut/version)]
+    [version (spec/gen ::sut/version)]
     (= version
        (sut/parse-version (sut/render-version version)))))
 
@@ -138,6 +140,6 @@
 (check.test/defspec
   bump-ordering-test 100
   (prop/for-all
-    [version (s/gen ::sut/version)
-     bump-type (s/gen ::sut/bump-type)]
+    [version (spec/gen ::sut/version)
+     bump-type (spec/gen ::sut/bump-type)]
     (= 1 (sut/compare-versions (sut/bump version bump-type) version))))
