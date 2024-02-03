@@ -20,7 +20,7 @@
   (main/info "Usage: lein sealog <command> [options]")
   (main/info "")
   (main/info "Available commands:")
-  (main/info "  init    - Initialize a new changelog directory and a default config file.")
+  (main/info "  init    - Initialize a new changelog directory and a default configuration file.")
   (main/info "  bump    - Bump the version number and create a new changelog entry.")
   (main/info "  render  - Render the changelog to the target file.")
   (main/info "  help    - Display this help message.")
@@ -33,7 +33,7 @@
   []
   (main/info "Usage: lein sealog init")
   (main/info "")
-  (main/info "Initialize a new changelog directory.")
+  (main/info "Initialize a new changelog directory and configuration file.")
   (main/info "If a changelog directory already exists, this command will do nothing."))
 
 
@@ -58,7 +58,9 @@
   (main/info "Render the changelog to the target file.")
   (main/info "")
   (main/info "Options:")
-  (main/info "  <file-path>  - File where the Changelog will be rendered. Defaults to CHANGELOG.md."))
+  (main/info "  <file-path>  - File where the Changelog will be rendered.")
+  (main/info "                 If no value is provided, the changelog-filename value in sealog/config.edn will be used.")
+  (main/info "                 If no configuration file is found, CHANGELOG.md will be set as the default."))
 
 
 (defn help
