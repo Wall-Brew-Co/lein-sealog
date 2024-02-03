@@ -1,6 +1,6 @@
 (ns leiningen.sealog.impl-test
   (:require [clojure.spec.alpha :as spec]
-            [clojure.test :refer [deftest is testing]]
+            [clojure.test :refer :all]
             [clojure.test.check.clojure-test :as check.test]
             [clojure.test.check.properties :as prop]
             [leiningen.sealog.impl :as sut]

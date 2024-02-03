@@ -1,32 +1,19 @@
 (ns leiningen.sealog.types.changelog-test
   (:require [clojure.spec.alpha :as spec]
-            [clojure.spec.gen.alpha :as gen]
-            [clojure.test :refer [deftest is testing]]
+            [clojure.test :refer :all]
             [clojure.test.check.clojure-test :as check.test]
             [clojure.test.check.properties :as prop]
+            [leiningen.sealog.test-util :as test-util]
             [leiningen.sealog.types.changelog :as sut]))
-
-
-(defn generatable?
-  "Attempts to generate a value for spec and returns true if it succeeds."
-  {:added  "1.3"
-   :no-doc true}
-  [spec]
-  (try
-    (every? #(spec/valid? spec %) (gen/sample (spec/gen spec)))
-    (catch Exception e
-      (println (str "Failed to generate a value for spec: " spec))
-      (println e)
-      false)))
 
 
 (deftest generatable?-test
   (testing "All specs can generate values that pass validation"
-    (is (generatable? ::sut/version))
-    (is (generatable? ::sut/version-type))
-    (is (generatable? ::sut/timestamp))
-    (is (generatable? ::sut/entry))
-    (is (generatable? ::sut/changelog))))
+    (is (test-util/generatable? ::sut/version))
+    (is (test-util/generatable? ::sut/version-type))
+    (is (test-util/generatable? ::sut/timestamp))
+    (is (test-util/generatable? ::sut/entry))
+    (is (test-util/generatable? ::sut/changelog))))
 
 
 ;; Static tests

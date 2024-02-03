@@ -1,7 +1,7 @@
 (ns leiningen.sealog.types.schemes.semver3-test
   (:require [clojure.spec.alpha :as spec]
             [clojure.spec.gen.alpha :as gen]
-            [clojure.test :refer [deftest is testing]]
+            [clojure.test :refer :all]
             [clojure.test.check.clojure-test :as check.test]
             [clojure.test.check.properties :as prop]
             [leiningen.sealog.types.schemes.semver3 :as sut]))

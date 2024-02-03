@@ -1,4 +1,7 @@
 (ns leiningen.sealog
+  "Main namespace for the sealog plugin.
+
+   Provides the entry point for leiningen and basic help functions."
   (:require [leiningen.core.main :as main]
             [leiningen.sealog.api :as sealog]))
 
@@ -17,7 +20,7 @@
   (main/info "Usage: lein sealog <command> [options]")
   (main/info "")
   (main/info "Available commands:")
-  (main/info "  init    - Initialize a new changelog directory.")
+  (main/info "  init    - Initialize a new changelog directory and a default config file.")
   (main/info "  bump    - Bump the version number and create a new changelog entry.")
   (main/info "  render  - Render the changelog to the target file.")
   (main/info "  help    - Display this help message.")
