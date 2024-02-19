@@ -26,6 +26,7 @@
 (spec/def ::version-scheme
   (st/spec
     {:type        :keyword
+     :gen         #(spec/gen types/scheme-set)
      :spec        ::types/scheme
      :description "The versioning scheme to use."}))
 

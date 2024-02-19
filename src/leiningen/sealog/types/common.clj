@@ -30,5 +30,6 @@
 (spec/def ::scheme
   (st/spec
     {:type        :keyword
+     :gen         #(spec/gen scheme-set)
      :spec        scheme-set
      :description "The type of version number."}))

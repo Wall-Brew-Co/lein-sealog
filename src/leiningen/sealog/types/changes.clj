@@ -70,5 +70,6 @@
                                       ::deprecated
                                       ::removed
                                       ::fixed
-                                      ::security ::misc])
+                                      ::security
+                                      ::misc])
      :description "A map of change types to vectors of change notes."}))

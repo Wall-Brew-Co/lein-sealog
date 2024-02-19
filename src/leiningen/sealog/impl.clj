@@ -180,5 +180,15 @@
         initial-entry-filename (str changelog-entry-directory (changelog/render-filename initial-entry))
         entry                  (update initial-entry :timestamp str)]
     (io/make-parents (io/file initial-entry-filename))
-    (write-file! initial-entry-filename entry)
-    (write-file! config/config-file config/default-config)))
+    (write-file! initial-entry-filename entry)))
+
+(defn sealog-configured?
+  "Returns true if the sealog configuration file exists."
+  []
+  (file-exists? config/config-file))
+
+(defn configure!
+  "Create a new configuration file."
+  [_opts]
+  (io/make-parents (io/file config/config-file))
+  (write-file! config/config-file config/default-config))

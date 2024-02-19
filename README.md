@@ -22,7 +22,7 @@ Sealog is available as a leiningen plugin and can be downloaded from [clojars](h
 To install Sealog, add the following in your `:plugins` list in your `project.clj` file:
 
 ```clj
-[com.wallbrew/lein-sealog "1.0.0"]
+[com.wallbrew/lein-sealog "1.1.0"]
 ```
 
 The first time you invoke this plugin, Leiningen will automatically fetch the dependency for you.
@@ -31,17 +31,28 @@ The first time you invoke this plugin, Leiningen will automatically fetch the de
 
 From the root of your project directory, you may invoke the following commands: `init`, `bump`, `render`, and `help`.
 
+Most commands will accept several options, which can be configured by the command line arguments passed in or by a configuration file located at `.sealog/config.edn`.
+In all cases, the options will follow this order of precedence:
+
+1. Arguments passed by command line
+2. Values stored in `.sealog/config.edn`
+3. Default values in Sealog's implementation
+
 ### Initialize Sealog
 
 Sealog stores [changelog entries](#change-format) in the `.sealog/changes` directory in your project.
 Since new projects will not have this directory by default, Sealog may create it for you.
-Additionally, Sealog will create an initial EDN change file for you.
+Additionally, Sealog will create an initial EDN change file and a configuration file for you.
 
 ```sh
 $ lein sealog init
-$ ls .sealog/changes
+$ ls .sealog/changes -l
 total 7
--rw-r--r-- 1 user user 348 Oct 23 10:42 1-0-0.edn
+-rw-r--r-- 1 user user 348 Feb 19 15:36 1-0-0.edn
+$ ls .sealog -l
+total 8
+drwxr-xr-x 2 user user 4096 Feb 19 15:37 changes
+-rw-r--r-- 1 user user  128 Feb 19 15:38 config.edn
 ```
 
 If the `.sealog` directory already exists, Sealog will perform no actions.
@@ -103,6 +114,14 @@ $ lein sealog render CHANGES.md
 Wrote changelog to: CHANGES.md
 ```
 
+If you wish to consistently default the filename to write, you may set the value of the `:changelog-filename` key in `.sealog/config.edn`
+
+```clj
+{:changelog-filename        "CHANGES.md"
+ :changelog-entry-directory ".sealog/changes/"
+ :version-scheme            :semver3}
+```
+
 ## Change Format
 
 Sealog stores changelog entries within a repository's `.sealog/changes` directory.
@@ -127,11 +146,29 @@ This file would be located at `.sealog/changes/1-2-0.edn`:
                 :deprecated ["`quux` was based on an old API no longer supported by source. Consumers should migrate to `foo`"]
                 :removed    []
                 :fixed      []
-                :security   []}, 
+                :security   []},
  :timestamp    "2022-10-08T22:45:40.974189700Z"}
 ```
 
 Empty change lists may be kept for consistency or removed.
+
+## Configuration
+
+Many of Sealog's commands may be modified at execution time with additional arguments.
+Long-term decisions, such as where the Changelog should be written to, can also be configured in a static file.
+As of version `1.1.0`, Sealog will inspect the local `.sealog/config.edn` file for configuration.
+
+Sealog will create this file while executing `lein sealog init` if no prior Sealog configuration file is detected.
+The file will be created with the defaults outlined in this README.
+
+The following keys and values are supported:
+
+* `:changelog-filename`
+  * A string representing a filepath relative to the project root where the Markdown Changelog should be rendered.
+* `:changelog-entry-directory`
+  * A string representing a filepath relative to the project root where the `.edn` change files will be stored.
+* `:version-scheme`
+  * The versioning scheme to be assumed by Sealog.
 
 ## License
 

@@ -7,9 +7,6 @@
             [leiningen.sealog.types.schemes.semver3 :as sut]))
 
 
-
-
-
 (deftest generatable?-test
   (testing "All specs can generate values that pass validation"
     (is (test-util/generatable? ::sut/bump-type))

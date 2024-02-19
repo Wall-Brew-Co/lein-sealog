@@ -14,6 +14,9 @@
   "Create a new changelog directory."
   [_opts]
   (let [configuration (impl/load-config!)]
+    (if (impl/sealog-configured?)
+      (main/info "Sealog configuration found.")
+      (impl/configure! configuration))
     (if (impl/sealog-initialized? configuration)
       (main/info "Sealog is already initialized!")
       (impl/init! configuration))))

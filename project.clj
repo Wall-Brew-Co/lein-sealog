@@ -7,7 +7,8 @@
             :comments     "Same-as all Wall-Brew projects"}
   :scm {:name "git"
         :url  "https://github.com/Wall-Brew-Co/lein-sealog"}
-  :dependencies [[java-time-literals/java-time-literals "2018-04-06"]
+  :dependencies [[com.wallbrew/spoon "1.2.1"]
+                 [java-time-literals/java-time-literals "2018-04-06"]
                  [metosin/spec-tools "0.10.6"]
                  [org.clojure/clojure "1.11.1"]
                  [org.clojure/core.match "1.0.1"]
