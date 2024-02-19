@@ -182,10 +182,12 @@
     (io/make-parents (io/file initial-entry-filename))
     (write-file! initial-entry-filename entry)))
 
+
 (defn sealog-configured?
   "Returns true if the sealog configuration file exists."
   []
   (file-exists? config/config-file))
+
 
 (defn configure!
   "Create a new configuration file."
