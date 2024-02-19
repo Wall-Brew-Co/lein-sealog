@@ -1,5 +1,5 @@
 (ns leiningen.sealog.types.schemes.semver3
-  (:require [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as spec]
             [clojure.string :as str]
             [spec-tools.core :as st]))
 
@@ -11,39 +11,39 @@
   #{:major :minor :patch})
 
 
-(s/def ::bump-type
+(spec/def ::bump-type
   (st/spec
     {:type        :keyword
      :spec        bump-types
-     :gen         #(s/gen bump-types)
+     :gen         #(spec/gen bump-types)
      :description "The type of version bump to perform. Valid values are: :major, :minor, :patch."}))
 
 
-(s/def ::major
+(spec/def ::major
   (st/spec
     {:type        :long
      :spec        nat-int?
      :description "The major version number."}))
 
 
-(s/def ::minor
+(spec/def ::minor
   (st/spec
     {:type        :long
      :spec        nat-int?
      :description "The minor version number."}))
 
 
-(s/def ::patch
+(spec/def ::patch
   (st/spec
     {:type        :long
      :spec        nat-int?
      :description "The patch version number."}))
 
 
-(s/def ::version
+(spec/def ::version
   (st/spec
     {:type        :map
-     :spec        (s/keys :req-un [::major ::minor ::patch])
+     :spec        (spec/keys :req-un [::major ::minor ::patch])
      :description "A map containing the major, minor, and patch version numbers."}))
 
 

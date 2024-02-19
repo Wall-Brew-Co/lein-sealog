@@ -1,5 +1,5 @@
 (ns leiningen.sealog.types.common
-  (:require [clojure.spec.alpha :as s]
+  (:require [clojure.spec.alpha :as spec]
             [clojure.string :as str]
             [spec-tools.core :as st]))
 
@@ -9,10 +9,10 @@
   (complement str/blank?))
 
 
-(s/def ::text
+(spec/def ::text
   (st/spec
     {:type        :string
-     :spec        (s/and string? not-blank?)
+     :spec        (spec/and string? not-blank?)
      :description "A single line of non-blank text."}))
 
 
@@ -27,8 +27,9 @@
   (set (keys schemes)))
 
 
-(s/def ::scheme
+(spec/def ::scheme
   (st/spec
     {:type        :keyword
+     :gen         #(spec/gen scheme-set)
      :spec        scheme-set
      :description "The type of version number."}))

@@ -1,6 +1,6 @@
 (ns leiningen.sealog.impl-test
-  (:require [clojure.spec.alpha :as s]
-            [clojure.test :refer [deftest is testing]]
+  (:require [clojure.spec.alpha :as spec]
+            [clojure.test :refer :all]
             [clojure.test.check.clojure-test :as check.test]
             [clojure.test.check.properties :as prop]
             [leiningen.sealog.impl :as sut]
@@ -30,15 +30,19 @@
 
 ;; Property-based tests
 
+(declare render-changes-sequence-of-strings
+         render-changelog-string)
+
+
 (check.test/defspec
   render-changes-sequence-of-strings 100
   (prop/for-all
-    [changes (s/gen ::changelog/changelog)]
+    [changes (spec/gen ::changelog/changelog)]
     (every? string? (sut/render-changes changes))))
 
 
 (check.test/defspec
   render-changelog-string 100
   (prop/for-all
-    [changes (s/gen ::changelog/changelog)]
+    [changes (spec/gen ::changelog/changelog)]
     (string? (sut/render-changelog changes))))

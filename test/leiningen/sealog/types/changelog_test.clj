@@ -1,32 +1,19 @@
 (ns leiningen.sealog.types.changelog-test
-  (:require [clojure.spec.alpha :as s]
-            [clojure.spec.gen.alpha :as gen]
-            [clojure.test :refer [deftest is testing]]
+  (:require [clojure.spec.alpha :as spec]
+            [clojure.test :refer :all]
             [clojure.test.check.clojure-test :as check.test]
             [clojure.test.check.properties :as prop]
+            [leiningen.sealog.test-util :as test-util]
             [leiningen.sealog.types.changelog :as sut]))
-
-
-(defn generatable?
-  "Attempts to generate a value for spec and returns true if it succeeds."
-  {:added  "1.3"
-   :no-doc true}
-  [spec]
-  (try
-    (every? #(s/valid? spec %) (gen/sample (s/gen spec)))
-    (catch Exception e
-      (println (str "Failed to generate a value for spec: " spec))
-      (println e)
-      false)))
 
 
 (deftest generatable?-test
   (testing "All specs can generate values that pass validation"
-    (is (generatable? ::sut/version))
-    (is (generatable? ::sut/version-type))
-    (is (generatable? ::sut/timestamp))
-    (is (generatable? ::sut/entry))
-    (is (generatable? ::sut/changelog))))
+    (is (test-util/generatable? ::sut/version))
+    (is (test-util/generatable? ::sut/version-type))
+    (is (test-util/generatable? ::sut/timestamp))
+    (is (test-util/generatable? ::sut/entry))
+    (is (test-util/generatable? ::sut/changelog))))
 
 
 ;; Static tests
@@ -212,18 +199,24 @@
 
 ;; Property-based tests
 
+(declare compare-changelog-versions-range
+         sort-changelog-ascending-idempotentcy-test
+         sort-descending-idempotentcy-test
+         sort-reversal-test)
+
+
 (check.test/defspec
   compare-changelog-versions-range 100
   (prop/for-all
-    [v1 (s/gen ::sut/entry)
-     v2 (s/gen ::sut/entry)]
+    [v1 (spec/gen ::sut/entry)
+     v2 (spec/gen ::sut/entry)]
     (#{-1 0 1} (sut/compare-changelog-versions v1 v2))))
 
 
 (check.test/defspec
   sort-changelog-ascending-idempotentcy-test 100
   (prop/for-all
-    [entrys (s/gen (s/coll-of ::sut/entry))]
+    [entrys (spec/gen (spec/coll-of ::sut/entry))]
     (= (sut/sort-changelog-ascending entrys)
        (sut/sort-changelog-ascending (sut/sort-changelog-ascending entrys)))))
 
@@ -231,7 +224,7 @@
 (check.test/defspec
   sort-descending-idempotentcy-test 100
   (prop/for-all
-    [entrys (s/gen (s/coll-of ::sut/entry))]
+    [entrys (spec/gen (spec/coll-of ::sut/entry))]
     (= (sut/sort-changelog-descending entrys)
        (sut/sort-changelog-descending (sut/sort-changelog-descending entrys)))))
 
@@ -239,6 +232,6 @@
 (check.test/defspec
   sort-reversal-test 100
   (prop/for-all
-    [entrys (s/gen (s/coll-of ::sut/entry))]
+    [entrys (spec/gen (spec/coll-of ::sut/entry))]
     (= (-> entrys sut/sort-changelog-ascending first :version)
        (-> entrys sut/sort-changelog-descending last :version))))
