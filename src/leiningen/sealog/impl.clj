@@ -44,7 +44,6 @@
 (defn write-edn-file!
   "Write the contents to a file as EDN."
   [filename content {:keys [pretty-print-edn?]}]
-  (println "pretty-print-edn? " pretty-print-edn?)
   (if pretty-print-edn?
     (write-file! filename (with-out-str (pp/pprint content)))
     (write-file! filename content)))
