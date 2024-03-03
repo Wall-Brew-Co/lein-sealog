@@ -33,7 +33,7 @@
         changelog        (impl/load-changelog-entry-directory! configuration)
         sorted-changelog (changelog/sort-changelog-descending changelog)
         changes          (impl/render-changelog sorted-changelog)]
-    (spit filepath changes)
+    (impl/write-file! filepath changes)
     (main/info (format "Wrote changelog to: %s" filepath))))
 
 
@@ -49,5 +49,5 @@
         changelog           (impl/load-changelog-entry-directory! configuration)
         new-entry           (update (changelog/bump changelog bump-type) :timestamp str)
         new-file            (str changelog-directory (changelog/render-filename new-entry))]
-    (spit new-file new-entry)
+    (impl/write-edn-file! new-file new-entry configuration)
     (println (format "Created new changelog entry: %s" new-file))))

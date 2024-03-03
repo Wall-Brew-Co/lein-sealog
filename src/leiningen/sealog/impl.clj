@@ -1,6 +1,7 @@
 (ns leiningen.sealog.impl
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
+            [clojure.pprint :as pp]
             [clojure.spec.alpha :as spec]
             [clojure.string :as str]
             [leiningen.core.main :as main]
@@ -39,6 +40,14 @@
   [filename content]
   (main/info (format "Writing to %s" filename))
   (spit filename content))
+
+(defn write-edn-file!
+  "Write the contents to a file as EDN."
+  [filename content {:keys [pretty-print-edn?]}]
+  (println "pretty-print-edn? " pretty-print-edn?)
+  (if pretty-print-edn?
+    (write-file! filename (with-out-str (pp/pprint content)))
+    (write-file! filename content)))
 
 
 (defn read-file!
@@ -175,12 +184,12 @@
 
 (defn init!
   "Create a new changelog directory."
-  [{:keys [changelog-entry-directory version-scheme] :as _config}]
+  [{:keys [changelog-entry-directory version-scheme] :as config}]
   (let [initial-entry          (changelog/initialize version-scheme)
         initial-entry-filename (str changelog-entry-directory (changelog/render-filename initial-entry))
         entry                  (update initial-entry :timestamp str)]
     (io/make-parents (io/file initial-entry-filename))
-    (write-file! initial-entry-filename entry)))
+    (write-edn-file! initial-entry-filename entry config)))
 
 
 (defn sealog-configured?

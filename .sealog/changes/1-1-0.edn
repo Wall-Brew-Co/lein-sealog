@@ -2,6 +2,6 @@
                 :minor 1
                 :patch 0}
  :version-type :semver3
- :changes      {:added      ["Created a configuration file for sealog consumers."]
-                :changed    ["Sealog commands will now use the configuration file if it exists and no command line options are set."]}
+ :changes      {:added   ["Created a configuration file for sealog consumers."]
+                :changed ["Sealog commands will now use the configuration file if it exists and no command line options are set."]}
  :timestamp    "2024-02-19T22:08:42.332183900Z"}

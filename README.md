@@ -168,7 +168,10 @@ The following keys and values are supported:
 * `:changelog-entry-directory`
   * A string representing a filepath relative to the project root where the `.edn` change files will be stored.
 * `:version-scheme`
-  * The versioning scheme to be assumed by Sealog.
+  * The versioning scheme to be assumed by Sealog. Currently supported options are:
+    * `:semver3` - [3 Position Semantic Versioning 2.0](https://semver.org/)
+* `:pretty-print-edn?`
+  * A boolean to determine if the .edn config and changelog entry files should be pretty printed. Defaults to false
 
 ## License
 

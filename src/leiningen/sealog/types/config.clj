@@ -30,13 +30,19 @@
      :spec        ::types/scheme
      :description "The versioning scheme to use."}))
 
+(spec/def ::pretty-print-edn?
+  (st/spec
+    {:type        :boolean
+     :description "Whether or not to pretty print the EDN files."}))
+
 
 (spec/def ::config
   (st/spec
     {:type        :map
      :spec        (spec/keys :opt-un [::changelog-filename
                                       ::changelog-entry-directory
-                                      ::version-scheme])
+                                      ::version-scheme
+                                      ::pretty-print-edn?])
      :description "The configuration for Sealog."}))
 
 
@@ -44,4 +50,5 @@
   "The default configuration for Sealog."
   {:changelog-filename        "CHANGELOG.md"
    :changelog-entry-directory ".sealog/changes/"
-   :version-scheme            :semver3})
+   :version-scheme            :semver3
+   :pretty-print-edn?         false})

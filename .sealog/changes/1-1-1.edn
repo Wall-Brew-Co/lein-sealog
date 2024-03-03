@@ -1,0 +1,6 @@
+{:version      {:major 1
+                :minor 1
+                :patch 1}
+ :version-type :semver3
+ :changes      {:added ["Added `:pretty-print-edn?` to the configuration. EDN files for changelog entries and configuration may now be pretty printed."]}
+ :timestamp    "2024-03-03T00:38:25.843229400Z"}
