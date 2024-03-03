@@ -30,6 +30,7 @@
      :spec        ::types/scheme
      :description "The versioning scheme to use."}))
 
+
 (spec/def ::pretty-print-edn?
   (st/spec
     {:type        :boolean
