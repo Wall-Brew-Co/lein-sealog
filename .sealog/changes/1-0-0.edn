@@ -2,7 +2,7 @@
                 :minor 0
                 :patch 0}
  :version-type :semver3
- :changes      {:added      ["Idempotent changelog initialization via: `lein sealog init`"
-                             "Rendering changelogs to markdown files via: `lein sealog render`"
-                             "Changelog version management via: `lein sealog bump`"]}
+ :changes      {:added ["Idempotent changelog initialization via: `lein sealog init`"
+                        "Rendering changelogs to markdown files via: `lein sealog render`"
+                        "Changelog version management via: `lein sealog bump`"]}
  :timestamp    "2022-10-23T16:09:09.167841Z"}

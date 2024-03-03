@@ -4,7 +4,7 @@
   <groupId>com.wallbrew</groupId>
   <artifactId>lein-sealog</artifactId>
   <packaging>jar</packaging>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
   <name>lein-sealog</name>
   <description>A Leiningen plugin for managing your changelog.</description>
   <url>https://github.com/Wall-Brew-Co/common-beer-format</url>
@@ -20,7 +20,7 @@
     <url>https://github.com/Wall-Brew-Co/lein-sealog</url>
     <connection>scm:git:git://github.com/Wall-Brew-Co/lein-sealog.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Wall-Brew-Co/lein-sealog.git</developerConnection>
-    <tag>db37860c4764348af4bbdd537b538b2d0ee18955</tag>
+    <tag>fbbb9f5108342b76fd7ca8329e72b7294c20ede4</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>

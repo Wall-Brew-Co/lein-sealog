@@ -6,10 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
+* [1.2.0 - 2024-03-03](#120---2024-03-03)
 * [1.1.0 - 2024-02-19](#110---2024-02-19)
 * [1.0.2 - 2022-12-11](#102---2022-12-11)
 * [1.0.1 - 2022-10-23](#101---2022-10-23)
 * [1.0.0 - 2022-10-23](#100---2022-10-23)
+
+## 1.2.0 - 2024-03-03
+
+* Added
+  * Added `:pretty-print-edn?` to the configuration. EDN files for changelog entries and configuration may now be pretty printed.
 
 ## 1.1.0 - 2024-02-19
 

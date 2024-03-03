@@ -10,6 +10,7 @@
     (is (test-util/generatable? ::sut/changelog-filename))
     (is (test-util/generatable? ::sut/changelog-entry-directory))
     (is (test-util/generatable? ::sut/version-scheme))
+    (is (test-util/generatable? ::sut/pretty-print-edn?))
     (is (test-util/generatable? ::sut/config))))
 
 
