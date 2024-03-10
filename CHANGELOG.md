@@ -6,11 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
+* [1.2.1 - 2024-03-10](#121---2024-03-10)
 * [1.2.0 - 2024-03-03](#120---2024-03-03)
 * [1.1.0 - 2024-02-19](#110---2024-02-19)
 * [1.0.2 - 2022-12-11](#102---2022-12-11)
 * [1.0.1 - 2022-10-23](#101---2022-10-23)
 * [1.0.0 - 2022-10-23](#100---2022-10-23)
+
+## 1.2.1 - 2024-03-10
+
+* Changed
+  * Bumped `org.clojure/clojure` to `1.11.2`. Note: Addressing `CVE-2024-22871` / `GHSA-vr64-r9qj-h27f` requires consumers to upgrade to this version.
 
 ## 1.2.0 - 2024-03-03
 

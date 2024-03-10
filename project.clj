@@ -1,4 +1,4 @@
-(defproject com.wallbrew/lein-sealog "1.2.0"
+(defproject com.wallbrew/lein-sealog "1.2.1"
   :description "A Leiningen plugin for managing your changelog."
   :url "https://github.com/Wall-Brew-Co/common-beer-format"
   :license {:name         "MIT"
