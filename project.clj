@@ -10,7 +10,7 @@
   :dependencies [[com.wallbrew/spoon "1.2.1"]
                  [java-time-literals/java-time-literals "2018-04-06"]
                  [metosin/spec-tools "0.10.6"]
-                 [org.clojure/clojure "1.11.1"]
+                 [org.clojure/clojure "1.11.2"]
                  [org.clojure/core.match "1.1.0"]
                  [org.clojure/test.check "1.1.1"]]
   :plugins [[com.github.clj-kondo/lein-clj-kondo "2024.03.05"]
