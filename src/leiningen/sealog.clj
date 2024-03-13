@@ -9,7 +9,7 @@
 (defn unknown-command
   "Formats an error message for an unknown command."
   [command]
-  (str "Unknown command: " command "\nAvailable commands: init, bump, render, and help"))
+  (str "Unknown command: " command "\nAvailable commands: init, bump, render, insert, and help"))
 
 
 (defn top-level-help
@@ -23,6 +23,7 @@
   (main/info "  init    - Initialize a new changelog directory and a default configuration file.")
   (main/info "  bump    - Bump the version number and create a new changelog entry.")
   (main/info "  render  - Render the changelog to the target file.")
+  (main/info "  insert  - Insert a note of a specified change type into the most current change file.")
   (main/info "  help    - Display this help message.")
   (main/info "")
   (main/info "Run `lein sealog help <command>` for more information on a specific command."))
@@ -63,6 +64,23 @@
   (main/info "                 If no configuration file is found, CHANGELOG.md will be set as the default."))
 
 
+(defn insert-help
+  "Display help text for the insert command"
+  []
+  (main/info "Usage: lein sealog insert <change-type> \"<change-message>\" \"<change-message>\" ...")
+  (main/info "")
+  (main/info "Insert a note of a specfied `<change type> into the most current change file.")
+  (main/info "Requires at least one `<change-message>` to be provided.")
+  (main/info "However, multiple `<change-message>` can be provided.")
+  (main/info "")
+  (main/info "Options:")
+  (main/info "  <change-type> - A valid change type: (\"added\", \"changed\", \"deprecated\", \"removed\", \"fixed\", \"security\")")
+  (main/info "                  If no value is provided, process will exit abnormally.")
+  (main/info "  <change-message> - One or more double-quoted strings to be added to the change file.")
+  (main/info "                     If no value is provided, process will exit abnormally.")
+  (main/info "                     All values must be unique."))
+
+
 (defn help
   "Display help text for a specific command."
   [options]
@@ -72,6 +90,7 @@
       "init"     (init-help)
       "bump"     (bump-help)
       "render"   (render-help)
+      "insert"   (insert-help)
       "help"     (main/info "Run `lein sealog help <command>` for more information on a specific command.")
       (main/info (unknown-command command)))))
 
@@ -88,5 +107,6 @@
       "init"   (sealog/init options)
       "bump"   (sealog/bump-version options)
       "render" (sealog/render-changelog options)
+      "insert" (sealog/insert-entry options)
       "help"   (help options)
       (main/warn "Unknown command: %s" command))))

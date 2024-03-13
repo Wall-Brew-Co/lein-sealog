@@ -4,10 +4,8 @@
    This namespace contains the public functions that are called by the leiningen"
   (:require [leiningen.core.main :as main]
             [leiningen.sealog.impl :as impl]
-            [leiningen.sealog.types.changelog :as changelog]))
-
-
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
+            [leiningen.sealog.types.changelog :as changelog]
+            [leiningen.sealog.types.commands :as commands]))
 
 
 (defn init
@@ -22,9 +20,6 @@
       (impl/init! configuration))))
 
 
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-
-
 (defn render-changelog
   "Render the changelog to the target file."
   [opts]
@@ -35,9 +30,6 @@
         changes          (impl/render-changelog sorted-changelog)]
     (impl/write-file! filepath changes)
     (main/info (format "Wrote changelog to: %s" filepath))))
-
-
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 
 
 (defn bump-version
@@ -51,3 +43,20 @@
         new-file            (str changelog-directory (changelog/render-filename new-entry))]
     (impl/write-edn-file! new-file new-entry configuration)
     (println (format "Created new changelog entry: %s" new-file))))
+
+
+(defn insert-entry
+  "Insert a note of a specified change type into the most current change file."
+  [opts]
+  (let [change-type  (first opts)
+        change-notes (rest opts)]
+    (if (commands/valid-insert-command? change-type change-notes)
+      (let [configuration           (impl/load-config!)
+            changelog-directory     (:changelog-entry-directory configuration)
+            changelog               (impl/load-changelog-entry-directory! configuration)
+            latest-changelog-entry  (changelog/max-version changelog)
+            updated-changelog-entry (changelog/insert latest-changelog-entry change-type change-notes)
+            updated-entry-filename  (str changelog-directory (changelog/render-filename updated-changelog-entry))]
+        (impl/write-edn-file! updated-entry-filename updated-changelog-entry configuration)
+        (println (format "Updated changelog entries: %s" updated-entry-filename)))
+      (System/exit 1))))

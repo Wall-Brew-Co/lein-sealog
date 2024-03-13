@@ -1,6 +1,7 @@
 (ns leiningen.sealog.types.changelog
   (:require [clojure.spec.alpha :as spec]
             [clojure.string :as str]
+            [com.wallbrew.spoon.core :as spoon]
             [leiningen.sealog.types.changes :as changes]
             [leiningen.sealog.types.common :as types]
             [leiningen.sealog.types.schemes.semver3 :as semver3]
@@ -108,12 +109,12 @@
                           :semver3 (semver3/bump version-number bump-type))]
     {:version      bumped-version
      :version-type (:version-type maximum-version)
-     :changes      {:added      []
-                    :changed    []
-                    :deprecated []
-                    :removed    []
-                    :fixed      []
-                    :security   []}
+     :changes      {changes/added      []
+                    changes/changed    []
+                    changes/deprecated []
+                    changes/removed    []
+                    changes/fixed      []
+                    changes/security   []}
      :timestamp    (Instant/now)}))
 
 
@@ -123,12 +124,12 @@
   {:version      (case version-type
                    :semver3 (semver3/initialize))
    :version-type version-type
-   :changes      {:added      []
-                  :changed    []
-                  :deprecated []
-                  :removed    []
-                  :fixed      []
-                  :security   []}
+   :changes      {changes/added      []
+                  changes/changed    []
+                  changes/deprecated []
+                  changes/removed    []
+                  changes/fixed      []
+                  changes/security   []}
    :timestamp    (Instant/now)})
 
 
@@ -144,3 +145,10 @@
   [changelog-entry]
   (let [version (render-version changelog-entry)]
     (str (str/replace version #"\." "-") ".edn")))
+
+
+(defn insert
+  "Insert a note of a specified change type into the most current change file."
+  [changelog-entry change-type change-notes]
+  (let [change-keyword (keyword change-type)]
+    (update-in changelog-entry [:changes change-keyword] spoon/concatv change-notes)))

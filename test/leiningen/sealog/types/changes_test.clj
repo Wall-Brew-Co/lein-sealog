@@ -13,5 +13,4 @@
     (is (test-util/generatable? ::sut/removed))
     (is (test-util/generatable? ::sut/fixed))
     (is (test-util/generatable? ::sut/security))
-    (is (test-util/generatable? ::sut/misc))
     (is (test-util/generatable? ::sut/changes))))

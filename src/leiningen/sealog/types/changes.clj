@@ -13,11 +13,21 @@
      :description "A single line of text describing a change."}))
 
 
+(def added
+  "A symbolic keyword representing the added change type."
+  :added)
+
+
 (spec/def ::added
   (st/spec
     {:type        :vector
      :spec        (spec/coll-of ::change-note :distinct true)
      :description "A vector of change notes representing new features."}))
+
+
+(def changed
+  "A symbolic keyword representing the changed change type."
+  :changed)
 
 
 (spec/def ::changed
@@ -27,11 +37,21 @@
      :description "A vector of change notes representing changes to existing features."}))
 
 
+(def deprecated
+  "A symbolic keyword representing the deprecated change type."
+  :deprecated)
+
+
 (spec/def ::deprecated
   (st/spec
     {:type        :vector
      :spec        (spec/coll-of ::change-note :distinct true)
      :description "A vector of change notes for soon-to-be removed features."}))
+
+
+(def removed
+  "A symbolic keyword representing the removed change type."
+  :removed)
 
 
 (spec/def ::removed
@@ -41,11 +61,21 @@
      :description "A vector of change notes for removed features."}))
 
 
+(def fixed
+  "A symbolic keyword representing the fixed change type."
+  :fixed)
+
+
 (spec/def ::fixed
   (st/spec
     {:type        :vector
      :spec        (spec/coll-of ::change-note :distinct true)
      :description "A vector of change notes for bug fixes."}))
+
+
+(def security
+  "A symbolic keyword representing the security change type."
+  :security)
 
 
 (spec/def ::security
@@ -55,11 +85,9 @@
      :description "A vector of change notes for security fixes."}))
 
 
-(spec/def ::misc
-  (st/spec
-    {:type        :vector
-     :spec        (spec/coll-of ::change-note :distinct true)
-     :description "A vector of change notes for miscellaneous notifications"}))
+(def ^:const change-types
+  "The set of supported change types."
+  #{added changed deprecated removed fixed security})
 
 
 (spec/def ::changes
@@ -70,6 +98,5 @@
                                       ::deprecated
                                       ::removed
                                       ::fixed
-                                      ::security
-                                      ::misc])
+                                      ::security])
      :description "A map of change types to vectors of change notes."}))
