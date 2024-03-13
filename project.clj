@@ -13,7 +13,7 @@
                  [org.clojure/clojure "1.11.2"]
                  [org.clojure/core.match "1.1.0"]
                  [org.clojure/test.check "1.1.1"]]
-  :plugins [[com.github.clj-kondo/lein-clj-kondo "2024.03.05"]
+  :plugins [[com.github.clj-kondo/lein-clj-kondo "2024.03.13"]
             [com.wallbrew/lein-sealog "1.2.1"]
             [lein-cljsbuild "1.1.8"]
             [lein-project-version "0.1.0"]
