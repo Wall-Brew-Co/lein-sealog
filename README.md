@@ -22,14 +22,14 @@ Sealog is available as a leiningen plugin and can be downloaded from [clojars](h
 To install Sealog, add the following in your `:plugins` list in your `project.clj` file:
 
 ```clj
-[com.wallbrew/lein-sealog "1.1.0"]
+[com.wallbrew/lein-sealog "1.3.0"]
 ```
 
 The first time you invoke this plugin, Leiningen will automatically fetch the dependency for you.
 
 ## Usage
 
-From the root of your project directory, you may invoke the following commands: `init`, `bump`, `render`, and `help`.
+From the root of your project directory, you may invoke the following commands: `init`, `bump`, `render`, `insert`, and `help`.
 
 Most commands will accept several options, which can be configured by the command line arguments passed in or by a configuration file located at `.sealog/config.edn`.
 In all cases, the options will follow this order of precedence:
@@ -97,6 +97,81 @@ $ lein sealog bump
 Created new changelog entry: .sealog/1-0-1.edn
 ```
 
+### Inserting New Change Entries
+
+Insert adds a new change note for the most recent version.
+The insert command requires you to pass a valid [**Keep a Changelog**](https://keepachangelog.com/en/1.0.0/) key as the second argument followed by one or more double-quoted strings representing your changes.
+
+Assume we're starting with the following changelog entry:
+
+```clj
+{:version      {:major 1
+                :minor 0
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      []
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2024-03-13T02:24:28.296154300Z"}
+```
+
+To denote the changes for this version of sealog, we'd submit the following command:
+
+```sh
+$ lein sealog insert added "Created the application!"
+Reading from .sealog/config.edn
+Reading from .sealog/changes/1-0-0.edn
+Writing to .sealog/changes/1-0-0.edn
+Updated changelog entries: .sealog/changes/1-0-0.edn
+```
+
+From there, we can check the file and see our update:
+
+```clj
+{:version      {:major 1
+                :minor 0
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      ["Created the application!"]
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2024-03-13T02:24:28.296154300Z"}
+```
+
+We can also add several notes at once, and they'll be concatenated into any existing records.
+
+```sh
+$ lein sealog insert added "Release feature 1!" "Introduce feature 2-alpha"
+Reading from .sealog/config.edn
+Reading from .sealog/changes/1-0-0.edn
+Writing to .sealog/changes/1-0-0.edn
+Updated changelog entries: .sealog/changes/1-0-0.edn
+```
+
+Which produces the following updates:
+
+```clj
+{:version      {:major 1
+                :minor 0
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      ["Created the application!"
+                             "Release feature 1!"
+                             "Introduce feature 2-alpha"]
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2024-03-13T02:24:28.296154300Z"}
+```
+
 ### Render Changelog
 
 Finally, Sealog can aggregate and render your change entries into a clean, Markdown format.
@@ -129,7 +204,7 @@ A changelog entry is an EDN file storing a map with the following keys:
 
 * `:version` - A map containing a structured representation of a semantic version
 * `:version-type` - A keyword denoting the type of versioning system used. For example, `:semver3`
-* `:changed` - A map of [**Keep a Changelog**](https://keepachangelog.com/en/1.0.0/) keys, to a sequence of strings containing the changes of that type.
+* `:changes` - A map of [**Keep a Changelog**](https://keepachangelog.com/en/1.0.0/) keys, to a sequence of strings containing the changes of that type.
 * `:timestamp` - A string containing an [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) timestamp.
 
 Included is an example file for version "1.2.0" of a library.
@@ -146,7 +221,7 @@ This file would be located at `.sealog/changes/1-2-0.edn`:
                 :deprecated ["`quux` was based on an old API no longer supported by source. Consumers should migrate to `foo`"]
                 :removed    []
                 :fixed      []
-                :security   []},
+                :security   []}
  :timestamp    "2022-10-08T22:45:40.974189700Z"}
 ```
 
@@ -175,6 +250,6 @@ The following keys and values are supported:
 
 ## License
 
-Copyright © 2022 - [Wall Brew Co](https://wallbrew.com/)
+Copyright © [Wall Brew Co](https://wallbrew.com/)
 
 This software is provided for free, public use as outlined in the [MIT License](https://github.com/Wall-Brew-Co/lein-sealog/blob/master/LICENSE)
