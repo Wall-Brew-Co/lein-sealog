@@ -109,12 +109,12 @@
                           :semver3 (semver3/bump version-number bump-type))]
     {:version      bumped-version
      :version-type (:version-type maximum-version)
-     :changes      {:added      []
-                    :changed    []
-                    :deprecated []
-                    :removed    []
-                    :fixed      []
-                    :security   []}
+     :changes      {changes/added      []
+                    changes/changed    []
+                    changes/deprecated []
+                    changes/removed    []
+                    changes/fixed      []
+                    changes/security   []}
      :timestamp    (Instant/now)}))
 
 
@@ -124,12 +124,12 @@
   {:version      (case version-type
                    :semver3 (semver3/initialize))
    :version-type version-type
-   :changes      {:added      []
-                  :changed    []
-                  :deprecated []
-                  :removed    []
-                  :fixed      []
-                  :security   []}
+   :changes      {changes/added      []
+                  changes/changed    []
+                  changes/deprecated []
+                  changes/removed    []
+                  changes/fixed      []
+                  changes/security   []}
    :timestamp    (Instant/now)})
 
 

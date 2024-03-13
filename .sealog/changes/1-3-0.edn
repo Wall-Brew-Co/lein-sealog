@@ -1,0 +1,11 @@
+{:version      {:major 1
+                :minor 3
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      ["Create `insert` command to grant CLI access to entering changelog entries."]
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2024-03-13T02:24:28.296154300Z"}
