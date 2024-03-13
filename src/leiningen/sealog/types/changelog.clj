@@ -1,6 +1,7 @@
 (ns leiningen.sealog.types.changelog
   (:require [clojure.spec.alpha :as spec]
             [clojure.string :as str]
+            [com.wallbrew.spoon.core :as spoon]
             [leiningen.sealog.types.changes :as changes]
             [leiningen.sealog.types.common :as types]
             [leiningen.sealog.types.schemes.semver3 :as semver3]
@@ -144,3 +145,10 @@
   [changelog-entry]
   (let [version (render-version changelog-entry)]
     (str (str/replace version #"\." "-") ".edn")))
+
+
+(defn insert
+  "Insert a note of a specified change type into the most current change file."
+  [changelog-entry change-type change-notes]
+  (let [change-keyword (keyword change-type)]
+    (update-in changelog-entry [:changes change-keyword] spoon/concatv change-notes)))
