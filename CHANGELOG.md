@@ -17,7 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## 1.3.0 - 2024-03-13
 
 * Added
-  * Create `insert` command to grant CLI access to entering changelog entries.
+  * Create `insert` command to grant CLI access to [creating new changelog entries.](https://github.com/Wall-Brew-Co/lein-sealog#inserting-new-change-entries)
 
 ## 1.2.1 - 2024-03-10
 
@@ -32,7 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## 1.1.0 - 2024-02-19
 
 * Added
-  * Created a configuration file for sealog consumers.
+  * Created a [configuration file](https://github.com/Wall-Brew-Co/lein-sealog?tab=readme-ov-file#configuration) for sealog consumers.
 * Changed
   * Sealog commands will now use the configuration file if it exists and no command line options are set.
 
@@ -49,9 +49,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## 1.0.0 - 2022-10-23
 
 * Added
-  * Idempotent changelog initialization via: `lein sealog init`
-  * Rendering changelogs to markdown files via: `lein sealog render`
-  * Changelog version management via: `lein sealog bump`
+  * Idempotent changelog [initialization](https://github.com/Wall-Brew-Co/lein-sealog?tab=readme-ov-file#initialize-sealog) via: `lein sealog init`
+  * [Rendering changelogs to markdown files](https://github.com/Wall-Brew-Co/lein-sealog?tab=readme-ov-file#render-changelog) via: `lein sealog render`
+  * [Changelog version management](https://github.com/Wall-Brew-Co/lein-sealog?tab=readme-ov-file#bump-version) via: `lein sealog bump`
 
 ## Source
 

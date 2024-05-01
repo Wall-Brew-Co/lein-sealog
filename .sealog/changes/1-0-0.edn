@@ -2,7 +2,7 @@
                 :minor 0
                 :patch 0}
  :version-type :semver3
- :changes      {:added ["Idempotent changelog initialization via: `lein sealog init`"
-                        "Rendering changelogs to markdown files via: `lein sealog render`"
-                        "Changelog version management via: `lein sealog bump`"]}
+ :changes      {:added ["Idempotent changelog [initialization](https://github.com/Wall-Brew-Co/lein-sealog?tab=readme-ov-file#initialize-sealog) via: `lein sealog init`"
+                        "[Rendering changelogs to markdown files](https://github.com/Wall-Brew-Co/lein-sealog?tab=readme-ov-file#render-changelog) via: `lein sealog render`"
+                        "[Changelog version management](https://github.com/Wall-Brew-Co/lein-sealog?tab=readme-ov-file#bump-version) via: `lein sealog bump`"]}
  :timestamp    "2022-10-23T16:09:09.167841Z"}

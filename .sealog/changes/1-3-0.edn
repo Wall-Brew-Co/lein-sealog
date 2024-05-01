@@ -2,7 +2,7 @@
                 :minor 3
                 :patch 0}
  :version-type :semver3
- :changes      {:added      ["Create `insert` command to grant CLI access to entering changelog entries."]
+ :changes      {:added      ["Create `insert` command to grant CLI access to [creating new changelog entries.](https://github.com/Wall-Brew-Co/lein-sealog#inserting-new-change-entries)"]
                 :changed    []
                 :deprecated []
                 :removed    []

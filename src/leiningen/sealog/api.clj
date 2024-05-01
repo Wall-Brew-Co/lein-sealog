@@ -60,3 +60,20 @@
         (impl/write-edn-file! updated-entry-filename updated-changelog-entry configuration)
         (println (format "Updated changelog entries: %s" updated-entry-filename)))
       (System/exit 1))))
+
+(defn display-version
+  "Display information about the current version."
+  [project opts]
+  (let [version-source (first opts)]
+    (if (commands/valid-version-command? version-source)
+      (let [configuration          (impl/load-config!)
+            changelog              (impl/load-changelog-entry-directory! configuration)
+            latest-changelog-entry (changelog/max-version changelog)
+            sealog-version         (changelog/render-version latest-changelog-entry)
+            leiningen-version      (:version project)]
+        (case version-source
+          "project.clj" (main/info leiningen-version)
+          "sealog"      (main/info sealog-version)
+          (do (main/info (str "project.clj: " leiningen-version))
+              (main/info (str "sealog: " sealog-version)))))
+      (System/exit 1))))
