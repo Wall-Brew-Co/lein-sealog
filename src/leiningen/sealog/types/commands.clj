@@ -41,3 +41,29 @@
     (do (main/warn "Invalid change type: " change-type
                    "\nValid change types: " (str/join ", " insert-types))
         false)))
+
+
+(def valid-version-sources
+  "The allowed sources for the version command."
+  #{"project.clj" "sealog"})
+
+
+(spec/def ::version-source
+  (st/spec
+    {:type        :string
+     :spec        valid-version-sources
+     :gen         #(spec/gen valid-version-sources)
+     :description "The source of truth for the current version number."}))
+
+
+(defn valid-version-command?
+  "Validate the options for the version command.
+   If the options are valid, return true.
+   Otherwise, print an error message and return false."
+  [version-source]
+  (if (or (nil? version-source)
+          (spec/valid? ::version-source version-source))
+    true
+    (do (main/warn "Invalid source type: " version-source
+                   "\nValid source types: " (str/join ", " valid-version-sources))
+        false)))

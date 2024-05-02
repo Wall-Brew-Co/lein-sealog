@@ -1,6 +1,8 @@
 (ns leiningen.sealog
-  "Main namespace for the sealog plugin.
+  ;; The first line prints as the task description in `lein help`
+  "Update your changelog, programatically.
 
+   Main namespace for the sealog plugin.
    Provides the entry point for leiningen and basic help functions."
   (:require [leiningen.core.main :as main]
             [leiningen.sealog.api :as sealog]))
@@ -9,7 +11,7 @@
 (defn unknown-command
   "Formats an error message for an unknown command."
   [command]
-  (str "Unknown command: " command "\nAvailable commands: init, bump, render, insert, and help"))
+  (str "Unknown command: " command "\nAvailable commands: init, bump, render, insert, version, and help"))
 
 
 (defn top-level-help
@@ -24,6 +26,7 @@
   (main/info "  bump    - Bump the version number and create a new changelog entry.")
   (main/info "  render  - Render the changelog to the target file.")
   (main/info "  insert  - Insert a note of a specified change type into the most current change file.")
+  (main/info "  version - Display information about the current version.")
   (main/info "  help    - Display this help message.")
   (main/info "")
   (main/info "Run `lein sealog help <command>` for more information on a specific command."))
@@ -81,6 +84,18 @@
   (main/info "                     All values must be unique."))
 
 
+(defn version-help
+  "Display help text for the version command"
+  []
+  (main/info "Usage: lein sealog version <source>")
+  (main/info "")
+  (main/info "Display information about the current version.")
+  (main/info "")
+  (main/info "Options:")
+  (main/info "  <source> - A valid source of project version information: (\"project.clj\", \"sealog\")")
+  (main/info "             If no value is provided, the process will load all sources to compare."))
+
+
 (defn help
   "Display help text for a specific command."
   [options]
@@ -91,6 +106,7 @@
       "bump"     (bump-help)
       "render"   (render-help)
       "insert"   (insert-help)
+      "version"  (version-help)
       "help"     (main/info "Run `lein sealog help <command>` for more information on a specific command.")
       (main/info (unknown-command command)))))
 
@@ -100,13 +116,14 @@
 
 (defn sealog
   "Manage youur changelog, programatically."
-  [_project & args]
+  [project & args]
   (let [command (first args)
         options (rest args)]
     (case command
-      "init"   (sealog/init options)
-      "bump"   (sealog/bump-version options)
-      "render" (sealog/render-changelog options)
-      "insert" (sealog/insert-entry options)
-      "help"   (help options)
+      "init"    (sealog/init options)
+      "bump"    (sealog/bump-version options)
+      "render"  (sealog/render-changelog options)
+      "insert"  (sealog/insert-entry options)
+      "version" (sealog/display-version project options)
+      "help"    (help options)
       (main/warn "Unknown command: %s" command))))

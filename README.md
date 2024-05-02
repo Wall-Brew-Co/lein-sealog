@@ -22,14 +22,21 @@ Sealog is available as a leiningen plugin and can be downloaded from [clojars](h
 To install Sealog, add the following in your `:plugins` list in your `project.clj` file:
 
 ```clj
-[com.wallbrew/lein-sealog "1.3.0"]
+[com.wallbrew/lein-sealog "1.4.0"]
 ```
 
 The first time you invoke this plugin, Leiningen will automatically fetch the dependency for you.
 
 ## Usage
 
-From the root of your project directory, you may invoke the following commands: `init`, `bump`, `render`, `insert`, and `help`.
+From the root of your project directory, you may invoke the following commands:
+
+* `init` - To initialize sealog with an initial entry and a config file (if not present)
+* `bump` - To create a new changelog entry file
+* `render` - To compile all changelog entry files into a markdown Changelog
+* `insert` - To update the most recent changelog entry file with new notes
+* `version` - To print the current project versions from Leiningen and sealog
+* `help` - To view the help text of sealog or any command
 
 Most commands will accept several options, which can be configured by the command line arguments passed in or by a configuration file located at `.sealog/config.edn`.
 In all cases, the options will follow this order of precedence:
@@ -170,6 +177,55 @@ Which produces the following updates:
                 :fixed      []
                 :security   []}
  :timestamp    "2024-03-13T02:24:28.296154300Z"}
+```
+
+### View Version Information
+
+Sealog can parse your change entries and `project.clj` to view the current project information.
+By default, sealog will read and compare both sources:
+
+```sh
+$ lein sealog version
+Reading from .sealog/config.edn
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-0-0.edn
+Reading from .sealog/changes/1-1-0.edn
+Reading from .sealog/changes/1-2-1.edn
+Reading from .sealog/changes/1-0-2.edn
+Reading from .sealog/changes/1-3-0.edn
+project.clj: 1.3.0-SNAPSHOT
+sealog: 1.3.0
+```
+
+If you only want to consider `project.clj`:
+
+```sh
+lein sealog version project.clj
+Reading from .sealog/config.edn
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-0-0.edn
+Reading from .sealog/changes/1-1-0.edn
+Reading from .sealog/changes/1-2-1.edn
+Reading from .sealog/changes/1-0-2.edn
+Reading from .sealog/changes/1-3-0.edn
+1.3.0-SNAPSHOT
+```
+
+If you only want to consider sealog sourced data:
+
+```sh
+lein sealog version sealog
+Reading from .sealog/config.edn
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-0-0.edn
+Reading from .sealog/changes/1-1-0.edn
+Reading from .sealog/changes/1-2-1.edn
+Reading from .sealog/changes/1-0-2.edn
+Reading from .sealog/changes/1-3-0.edn
+1.3.0
 ```
 
 ### Render Changelog
