@@ -14,7 +14,7 @@
                  [org.clojure/core.match "1.1.0"]
                  [org.clojure/test.check "1.1.1"]]
   :plugins [[com.github.clj-kondo/lein-clj-kondo "2024.03.13"]
-            [com.wallbrew/lein-sealog "1.3.0"]
+            [com.wallbrew/lein-sealog "1.4.0"]
             [lein-cljsbuild "1.1.8"]
             [lein-project-version "0.1.0"]
             [mvxcvi/cljstyle "0.16.630"]
