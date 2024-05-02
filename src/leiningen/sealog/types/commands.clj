@@ -42,16 +42,19 @@
                    "\nValid change types: " (str/join ", " insert-types))
         false)))
 
+
 (def valid-version-sources
   "The allowed sources for the version command."
   #{"project.clj" "sealog"})
 
+
 (spec/def ::version-source
   (st/spec
-   {:type        :string
-    :spec        valid-version-sources
-    :gen         #(spec/gen valid-version-sources)
-    :description "The source of truth for the current version number."}))
+    {:type        :string
+     :spec        valid-version-sources
+     :gen         #(spec/gen valid-version-sources)
+     :description "The source of truth for the current version number."}))
+
 
 (defn valid-version-command?
   "Validate the options for the version command.

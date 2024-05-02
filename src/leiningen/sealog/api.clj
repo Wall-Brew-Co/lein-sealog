@@ -61,6 +61,7 @@
         (println (format "Updated changelog entries: %s" updated-entry-filename)))
       (System/exit 1))))
 
+
 (defn display-version
   "Display information about the current version."
   [project opts]
