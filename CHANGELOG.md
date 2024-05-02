@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
+* [1.4.0 - 2024-05-01](#140---2024-05-01)
 * [1.3.0 - 2024-03-13](#130---2024-03-13)
 * [1.2.1 - 2024-03-10](#121---2024-03-10)
 * [1.2.0 - 2024-03-03](#120---2024-03-03)
@@ -13,6 +14,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 * [1.0.2 - 2022-12-11](#102---2022-12-11)
 * [1.0.1 - 2022-10-23](#101---2022-10-23)
 * [1.0.0 - 2022-10-23](#100---2022-10-23)
+
+## 1.4.0 - 2024-05-01
+
+* Added
+  * `version` command to grant CLI access to [the current version.](https://github.com/Wall-Brew-Co/lein-sealog#view-version-information)
 
 ## 1.3.0 - 2024-03-13
 
@@ -39,7 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## 1.0.2 - 2022-12-11
 
 * Fixed
-  * Updated footer link to point to the public repository
+  * Updated footer link to point to the public repository.
 
 ## 1.0.1 - 2022-10-23
 
