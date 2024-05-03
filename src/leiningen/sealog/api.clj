@@ -79,6 +79,7 @@
               (main/info (str "sealog: " sealog-version)))))
       (System/exit 1))))
 
+
 (defn check
   "Check the current configuration, changelog entries, and the current project version."
   [project _opts]

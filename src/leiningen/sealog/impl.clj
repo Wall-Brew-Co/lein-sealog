@@ -204,6 +204,7 @@
   (io/make-parents (io/file config/config-file))
   (write-file! config/config-file config/default-config))
 
+
 (defn valid-configuration?
   "Returns true if the configuration is valid."
   []
@@ -218,6 +219,7 @@
       (do (main/warn (format "Invalid configuration file contents: %s" (spec/explain-str ::config/config contents)))
           false))))
 
+
 (defn changelog-entry-directory-is-not-empty?
   "Returns true if the changelog entry directory is not empty."
   [{:keys [changelog-entry-directory] :as _configuration}]
@@ -227,6 +229,7 @@
           true)
       (do (main/warn "Changelog entry directory is empty.")
           false))))
+
 
 (defn changelog-directory-only-contains-valid-files?
   "Returns true if the changelog entry directory only contains valid files."
@@ -238,14 +241,15 @@
                        (if (spec/valid? ::changelog/entry contents)
                          true
                          (do (main/warn (format "Invalid changelog file contents at path `%s`: %s"
-                                                 filepath
-                                                 (spec/explain-str ::changelog/entry contents)))
+                                                filepath
+                                                (spec/explain-str ::changelog/entry contents)))
                              false))))
         all-valid? (every? valid? files)]
     (if all-valid?
       (do (main/info "All changelog entries are valid.")
           true)
       false)))
+
 
 (defn all-changelog-entries-use-same-version-type?
   "Returns true if all changelog entries use the same version type."
@@ -261,6 +265,7 @@
       (do (main/warn (format "Changelog entries use multiple version types: %s" version-types))
           false))))
 
+
 (defn all-changelog-entries-have-distinct-versions?
   "Returns true if all changelog entries have distinct versions."
   [{:keys [changelog-entry-directory] :as _configuration}]
@@ -271,9 +276,10 @@
         versions      (vec (distinct (reduce reducer [] files)))]
     (if (= (count files) (count versions))
       (do (main/info "All changelog entries have distinct versions.")
-           true)
+          true)
       (do (main/warn (format "Changelog entries have non-distinct versions: %s" versions))
           false))))
+
 
 (defn project-version-matches-latest-changelog-entry?
   "Returns true if the project version matches the latest changelog entry."
@@ -286,9 +292,10 @@
       (do (main/info "Project version matches latest changelog entry.")
           true)
       (do (main/warn (format "Project version `%s` does not match latest changelog entry `%s`"
-                          leiningen-version
-                          sealog-version))
+                             leiningen-version
+                             sealog-version))
           false))))
+
 
 (defn rendered-changelog-contains-all-changelog-entries?
   "Returns true if the rendered changelog contains all changelog entries."

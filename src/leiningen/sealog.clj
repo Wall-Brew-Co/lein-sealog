@@ -96,6 +96,7 @@
   (main/info "  <source> - A valid source of project version information: (\"project.clj\", \"sealog\")")
   (main/info "             If no value is provided, the process will load all sources to compare."))
 
+
 (defn check-help
   "Display help text for the check command"
   []
