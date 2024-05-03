@@ -203,3 +203,101 @@
   [_opts]
   (io/make-parents (io/file config/config-file))
   (write-file! config/config-file config/default-config))
+
+(defn valid-configuration?
+  "Returns true if the configuration is valid."
+  []
+  (let [configuration-contents (if (file-exists? config/config-file)
+                                 (edn/read-string (read-file! config/config-file))
+                                 config/default-config)
+        contents               (st/coerce ::config/config configuration-contents st/string-transformer)
+        valid?                 (spec/valid? ::config/config contents)]
+    (if valid?
+      (do (main/info "Sealog configuration is valid.")
+          true)
+      (do (main/warn (format "Invalid configuration file contents: %s" (spec/explain-str ::config/config contents)))
+          false))))
+
+(defn changelog-entry-directory-is-not-empty?
+  "Returns true if the changelog entry directory is not empty."
+  [{:keys [changelog-entry-directory] :as _configuration}]
+  (let [has-files? (boolean (seq (list-all-files changelog-entry-directory)))]
+    (if has-files?
+      (do (main/info "Changelog entry directory contains at least one file.")
+          true)
+      (do (main/warn "Changelog entry directory is empty.")
+          false))))
+
+(defn changelog-directory-only-contains-valid-files?
+  "Returns true if the changelog entry directory only contains valid files."
+  [{:keys [changelog-entry-directory] :as _configuration}]
+  (let [files      (list-all-files changelog-entry-directory)
+        valid?     (fn [filepath]
+                     (let [file-content (edn/read-string (read-file! filepath))
+                           contents     (st/coerce ::changelog/entry file-content st/string-transformer)]
+                       (if (spec/valid? ::changelog/entry contents)
+                         true
+                         (do (main/warn (format "Invalid changelog file contents at path `%s`: %s"
+                                                 filepath
+                                                 (spec/explain-str ::changelog/entry contents)))
+                             false))))
+        all-valid? (every? valid? files)]
+    (if all-valid?
+      (do (main/info "All changelog entries are valid.")
+          true)
+      false)))
+
+(defn all-changelog-entries-use-same-version-type?
+  "Returns true if all changelog entries use the same version type."
+  [{:keys [changelog-entry-directory] :as _configuration}]
+  (let [files         (list-all-files changelog-entry-directory)
+        reducer       (fn [acc filepath]
+                        (let [content (edn/read-string (read-file! filepath))]
+                          (conj acc (:version-type content))))
+        version-types (vec (distinct (reduce reducer [] files)))]
+    (if (= 1 (count version-types))
+      (do (main/info "All changelog entries use the same version type.")
+          true)
+      (do (main/warn (format "Changelog entries use multiple version types: %s" version-types))
+          false))))
+
+(defn all-changelog-entries-have-distinct-versions?
+  "Returns true if all changelog entries have distinct versions."
+  [{:keys [changelog-entry-directory] :as _configuration}]
+  (let [files         (list-all-files changelog-entry-directory)
+        reducer       (fn [acc filepath]
+                        (let [content (edn/read-string (read-file! filepath))]
+                          (conj acc (:version content))))
+        versions      (vec (distinct (reduce reducer [] files)))]
+    (if (= (count files) (count versions))
+      (do (main/info "All changelog entries have distinct versions.")
+           true)
+      (do (main/warn (format "Changelog entries have non-distinct versions: %s" versions))
+          false))))
+
+(defn project-version-matches-latest-changelog-entry?
+  "Returns true if the project version matches the latest changelog entry."
+  [project configuration]
+  (let [changelog              (load-changelog-entry-directory! configuration)
+        latest-changelog-entry (changelog/max-version changelog)
+        sealog-version         (changelog/render-version latest-changelog-entry)
+        leiningen-version      (:version project)]
+    (if (= leiningen-version sealog-version)
+      (do (main/info "Project version matches latest changelog entry.")
+          true)
+      (do (main/warn (format "Project version `%s` does not match latest changelog entry `%s`"
+                          leiningen-version
+                          sealog-version))
+          false))))
+
+(defn rendered-changelog-contains-all-changelog-entries?
+  "Returns true if the rendered changelog contains all changelog entries."
+  [{:keys [changelog-filename] :as configuration}]
+  (let [changelog                   (load-changelog-entry-directory! configuration)
+        rendered-changelog          (render-changelog changelog)
+        rendered-changelog-contents (slurp changelog-filename)]
+    (if (= (count rendered-changelog) (count rendered-changelog-contents))
+      (do (main/info "Rendered changelog contains all changelog entries.")
+          true)
+      (do (main/warn "Rendered changelog does not contain all changelog entries. Please run `lein sealog render`.")
+          false))))
