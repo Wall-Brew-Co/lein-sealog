@@ -4,17 +4,11 @@
             [clojure.pprint :as pp]
             [clojure.spec.alpha :as spec]
             [clojure.string :as str]
+            [com.wallbrew.spoon.core :as spoon]
             [leiningen.core.main :as main]
             [leiningen.sealog.types.changelog :as changelog]
             [leiningen.sealog.types.config :as config]
             [spec-tools.core :as st]))
-
-
-(defn concatv
-  "Concatenates the given sequences into a vector.
-   This is a workaround for the fact that `concat` returns a lazy sequence."
-  [& vectors]
-  (vec (apply concat vectors)))
 
 
 (defn list-all-files
@@ -137,7 +131,7 @@
                          entry-link  (str/replace (str/replace entry-title #" " "-") #"\." "")]
                      (format "* [%s](#%s)" entry-title entry-link)))
         toc      (mapv ->header changelog)]
-    (concatv ["## Table of Contents" ""] toc [""])))
+    (spoon/concatv ["## Table of Contents" ""] toc [""])))
 
 
 (defn render-change-set
@@ -148,14 +142,14 @@
                          (if (seq changes)
                            (let [heading (format "* %s" change-type)
                                  entries (mapv ->change-entry changes)]
-                             (concatv [heading] entries))
+                             (spoon/concatv [heading] entries))
                            []))]
-    (concatv (->change "Added" added)
-             (->change "Changed" changed)
-             (->change "Deprecated" deprecated)
-             (->change "Removed" removed)
-             (->change "Fixed" fixed)
-             (->change "Security" security))))
+    (spoon/concatv (->change "Added" added)
+                   (->change "Changed" changed)
+                   (->change "Deprecated" deprecated)
+                   (->change "Removed" removed)
+                   (->change "Fixed" fixed)
+                   (->change "Security" security))))
 
 
 (defn render-changelog-entry
@@ -163,7 +157,7 @@
   [{:keys [changes] :as change}]
   (let [header      (str "## " (->entry-title change))
         change-list (render-change-set changes)]
-    (concatv [header ""] change-list [""])))
+    (spoon/concatv [header ""] change-list [""])))
 
 
 (defn render-changes
@@ -179,7 +173,7 @@
         toc      (render-toc changelog)
         changes  (render-changes changelog)
         footer   (render-footer)]
-    (str/join "\n" (concatv preamble toc changes footer))))
+    (str/join "\n" (spoon/concatv preamble toc changes footer))))
 
 
 (defn init!

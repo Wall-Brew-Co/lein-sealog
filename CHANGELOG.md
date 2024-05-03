@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
+* [1.6.0 - 2024-05-03](#160---2024-05-03)
 * [1.5.0 - 2024-05-03](#150---2024-05-03)
 * [1.4.0 - 2024-05-01](#140---2024-05-01)
 * [1.3.0 - 2024-03-13](#130---2024-03-13)
@@ -15,6 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 * [1.0.2 - 2022-12-11](#102---2022-12-11)
 * [1.0.1 - 2022-10-23](#101---2022-10-23)
 * [1.0.0 - 2022-10-23](#100---2022-10-23)
+
+## 1.6.0 - 2024-05-03
+
+* Changed
+  * Removed dependency on `org.clojure/core.match`.
+  * Removed dependency on `lein-project-version`.
+  * Downgraded `org.clojure/test.check` to `:dev` profile for tests.
 
 ## 1.5.0 - 2024-05-03
 

@@ -3,21 +3,22 @@
             [clojure.test :refer :all]
             [clojure.test.check.clojure-test :as check.test]
             [clojure.test.check.properties :as prop]
+            [com.wallbrew.spoon.core :as spoon]
             [leiningen.sealog.impl :as sut]
             [leiningen.sealog.types.changelog :as changelog]))
 
 
 (deftest concatv-test
   (testing "Concatv returns a vector"
-    (is (= [] (sut/concatv))
+    (is (= [] (spoon/concatv))
         "Like concat, concatv returns an empty vector when given no arguments")
-    (is (= [1 2 3] (sut/concatv (list 1 2 3)))
+    (is (= [1 2 3] (spoon/concatv (list 1 2 3)))
         "Concatv casts single collevtions to a vector")
-    (is (= [1 2 3] (sut/concatv [1 2 3]))
+    (is (= [1 2 3] (spoon/concatv [1 2 3]))
         "Concatv casts single collevtions to a vector")
-    (is (= [1 2 3 4 5 6] (sut/concatv [1 2 3] [4 5 6]))
+    (is (= [1 2 3 4 5 6] (spoon/concatv [1 2 3] [4 5 6]))
         "Concatv concatenates multiple collections into a vector")
-    (is (= [1 2 3 4 5 6] (sut/concatv [1 2 3] (list 4 5 6)))
+    (is (= [1 2 3 4 5 6] (spoon/concatv [1 2 3] (list 4 5 6)))
         "Concatv concatenates multiple collections into a vector")))
 
 

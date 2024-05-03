@@ -1,0 +1,13 @@
+{:version      {:major 1
+                :minor 6
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      []
+                :changed    ["Removed dependency on `org.clojure/core.match`."
+                             "Removed dependency on `lein-project-version`."
+                             "Downgraded `org.clojure/test.check` to `:dev` profile for tests."]
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2024-05-03T12:30:39.109508700Z"}
