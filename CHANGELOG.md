@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
+* [1.5.0 - 2024-05-03](#150---2024-05-03)
 * [1.4.0 - 2024-05-01](#140---2024-05-01)
 * [1.3.0 - 2024-03-13](#130---2024-03-13)
 * [1.2.1 - 2024-03-10](#121---2024-03-10)
@@ -14,6 +15,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 * [1.0.2 - 2022-12-11](#102---2022-12-11)
 * [1.0.1 - 2022-10-23](#101---2022-10-23)
 * [1.0.0 - 2022-10-23](#100---2022-10-23)
+
+## 1.5.0 - 2024-05-03
+
+* Added
+  * `check` command to [verify the current configuration, changelog entries, and project version.](https://github.com/Wall-Brew-Co/lein-sealog#check-sealog-configuration)
 
 ## 1.4.0 - 2024-05-01
 
