@@ -42,7 +42,7 @@ jobs:
 
     - name: Resolve version
       id: versionchk
-      run: echo "::set-output name=VERSION::$(lein project-version)"
+      run: echo "::set-output name=VERSION::$(lein sealog version project.clj | tail -n 1)"
 
     - name: Push Tag
       uses: hole19/git-tag-action@v1.0

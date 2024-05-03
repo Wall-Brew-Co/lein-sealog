@@ -25,9 +25,6 @@ jobs:
     - name: Install Clojure dependencies
       run: lein deps
 
-    - name: TEST ME
-      run: lein sealog version project.clj | tail -n 1
-
     - name: Run all tests
       run: lein test
 
