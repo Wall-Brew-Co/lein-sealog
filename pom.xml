@@ -20,7 +20,7 @@
     <url>https://github.com/Wall-Brew-Co/lein-sealog</url>
     <connection>scm:git:git://github.com/Wall-Brew-Co/lein-sealog.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/Wall-Brew-Co/lein-sealog.git</developerConnection>
-    <tag>0d6214fa1dbfa0929d716b29eff63aee1082fb2a</tag>
+    <tag>0974697f653301bc6c42dd687044947ed2ef5e9c</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -87,13 +87,9 @@
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
-      <artifactId>core.match</artifactId>
-      <version>1.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.clojure</groupId>
       <artifactId>test.check</artifactId>
       <version>1.1.1</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
