@@ -1,0 +1,11 @@
+{:version      {:major 1
+                :minor 5
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      ["`check` command to [verify the current configuration, changelog entries, and project version.](https://github.com/Wall-Brew-Co/lein-sealog#check-sealog-configuration)"]
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2024-05-03T00:46:45.488497Z"}

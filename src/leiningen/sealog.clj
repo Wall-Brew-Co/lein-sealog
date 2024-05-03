@@ -11,7 +11,7 @@
 (defn unknown-command
   "Formats an error message for an unknown command."
   [command]
-  (str "Unknown command: " command "\nAvailable commands: init, bump, render, insert, version, and help"))
+  (str "Unknown command: " command "\nAvailable commands: init, bump, render, insert, version, check, and help"))
 
 
 (defn top-level-help
@@ -27,6 +27,7 @@
   (main/info "  render  - Render the changelog to the target file.")
   (main/info "  insert  - Insert a note of a specified change type into the most current change file.")
   (main/info "  version - Display information about the current version.")
+  (main/info "  check   - Check the current configuration, changelog etries, and the current project version.")
   (main/info "  help    - Display this help message.")
   (main/info "")
   (main/info "Run `lein sealog help <command>` for more information on a specific command."))
@@ -96,6 +97,24 @@
   (main/info "             If no value is provided, the process will load all sources to compare."))
 
 
+(defn check-help
+  "Display help text for the check command"
+  []
+  (main/info "Usage: lein sealog check")
+  (main/info "")
+  (main/info "Check the current configuration, changelog etries, and the current project version.")
+  (main/info "Will exit abnormally if any issues are found.")
+  (main/info "")
+  (main/info "Checks:")
+  (main/info "  - If a configuration file exists, it must be valid.")
+  (main/info "  - The changelog directory must contain at least one file.")
+  (main/info "  - The changelog directory must contain only valid changelog entries.")
+  (main/info "  - All changelog entry files must use the same version type.")
+  (main/info "  - All changelog entry files must have a distinct version.")
+  (main/info "  - The project version must match the latest changelog entry.")
+  (main/info "  - The rendered changelog must contain all changelog entries."))
+
+
 (defn help
   "Display help text for a specific command."
   [options]
@@ -107,6 +126,7 @@
       "render"   (render-help)
       "insert"   (insert-help)
       "version"  (version-help)
+      "check"    (check-help)
       "help"     (main/info "Run `lein sealog help <command>` for more information on a specific command.")
       (main/info (unknown-command command)))))
 
@@ -125,5 +145,6 @@
       "render"  (sealog/render-changelog options)
       "insert"  (sealog/insert-entry options)
       "version" (sealog/display-version project options)
+      "check"   (sealog/check project options)
       "help"    (help options)
       (main/warn "Unknown command: %s" command))))

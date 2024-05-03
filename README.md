@@ -36,6 +36,7 @@ From the root of your project directory, you may invoke the following commands:
 * `render` - To compile all changelog entry files into a markdown Changelog
 * `insert` - To update the most recent changelog entry file with new notes
 * `version` - To print the current project versions from Leiningen and sealog
+* `check` - To validate Sealog's configuration, changelog entry files, the changelog, and the project version
 * `help` - To view the help text of sealog or any command
 
 Most commands will accept several options, which can be configured by the command line arguments passed in or by a configuration file located at `.sealog/config.edn`.
@@ -227,6 +228,55 @@ Reading from .sealog/changes/1-0-2.edn
 Reading from .sealog/changes/1-3-0.edn
 1.3.0
 ```
+
+### Check Sealog Configuration
+
+Sealog relies on convention to produce sane changelogs.
+To validate that Sealog is configured appropriately, you may run a series of introspective checks.
+
+```sh
+$ lein sealog check
+Reading from .sealog/config.edn
+Sealog configuration is valid.
+Reading from .sealog/config.edn
+Changelog entry directory contains at least one file.
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-3-0.edn
+All changelog entries are valid.
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-3-0.edn
+All changelog entries use the same version type.
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-3-0.edn
+All changelog entries have distinct versions.
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-3-0.edn
+Project version matches latest changelog entry.
+Reading from .sealog/changes/1-0-1.edn
+Reading from .sealog/changes/1-2-0.edn
+Reading from .sealog/changes/1-3-0.edn
+Rendered changelog contains all changelog entries.
+All checks passed
+```
+
+Checks:
+
+* If a configuration file exists, it must be valid.
+  * If no configuration file exists, sealog will assume its default configuration
+* The changelog directory must contain at least one file.
+* The changelog directory must contain only valid changelog entries.
+  * If invalid files are found, the issues will be printed to STDERR with `clojure.spec/explain-str`
+* All changelog entry files must use the same version type.
+  * If mismatched version types are found, all version types will be printed to STDERR
+* All changelog entry files must have a distinct version.
+  * If duplicate versions are found, all versions will be printed to STDERR
+* The project.clj version must match the latest changelog entry.
+  * If mismatched versions are found, both will be printed to STDERR
+* The rendered changelog must contain all changelog entries.
 
 ### Render Changelog
 

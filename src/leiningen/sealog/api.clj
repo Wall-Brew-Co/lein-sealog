@@ -78,3 +78,25 @@
           (do (main/info (str "project.clj: " leiningen-version))
               (main/info (str "sealog: " sealog-version)))))
       (System/exit 1))))
+
+
+(defn check
+  "Check the current configuration, changelog entries, and the current project version."
+  [project _opts]
+  (if (impl/valid-configuration?)
+    (let [configuration                (impl/load-config!)
+          some-changelog-entries?      (impl/changelog-entry-directory-is-not-empty? configuration)
+          all-changelog-entries-valid? (impl/changelog-directory-only-contains-valid-files? configuration)
+          same-version-type?           (impl/all-changelog-entries-use-same-version-type? configuration)
+          distinct-versions?           (impl/all-changelog-entries-have-distinct-versions? configuration)]
+      (if (and some-changelog-entries?
+               all-changelog-entries-valid?
+               same-version-type?
+               distinct-versions?)
+        (let [versions-match?     (impl/project-version-matches-latest-changelog-entry? project configuration)
+              changelog-rendered? (impl/rendered-changelog-contains-all-changelog-entries? configuration)]
+          (if (and versions-match? changelog-rendered?)
+            (main/info "All checks passed")
+            (System/exit 1)))
+        (System/exit 1)))
+    (System/exit 1)))
