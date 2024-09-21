@@ -1,0 +1,11 @@
+{:version      {:major 1
+                :minor 7
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      []
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      ["Added the `<orgnization>` tag to the pom.xml file."]
+                :security   []}
+ :timestamp    "2024-09-21T16:27:46.206002976Z"}
