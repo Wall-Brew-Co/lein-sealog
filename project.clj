@@ -10,7 +10,7 @@
   :pom-addition [:organization
                  [:name "Wall Brew Co."]
                  [:url "https://wallbrew.com"]]
-  :dependencies [[com.wallbrew/spoon "1.2.3"]
+  :dependencies [[com.wallbrew/spoon "1.3.0"]
                  [java-time-literals/java-time-literals "2018-04-06"]
                  [metosin/spec-tools "0.10.7"]
                  [org.clojure/clojure "1.12.0"]]
