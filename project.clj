@@ -15,10 +15,9 @@
                  [metosin/spec-tools "0.10.7"]
                  [org.clojure/clojure "1.12.0"]]
   :plugins [[com.github.clj-kondo/lein-clj-kondo "2024.09.27"]
-            [com.wallbrew/bouncer "1.0.0"]
-            [com.wallbrew/lein-sealog "1.7.0"]
-            [mvxcvi/cljstyle "0.16.630"]
-            [ns-sort/ns-sort "1.0.3"]]
+            [com.wallbrew/bouncer "1.1.1"]
+            [com.wallbrew/lein-sealog "1.8.0"]
+            [mvxcvi/cljstyle "0.16.630"]]
   :profiles {:dev {:dependencies [[org.clojure/test.check "1.1.1"]]}}
   :deploy-repositories [["clojars" {:url           "https://clojars.org/repo"
                                     :username      :env/clojars_user
