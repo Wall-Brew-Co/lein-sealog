@@ -13,15 +13,18 @@
   "Select the configuration to use with the following precedence:
     - The `:sealog` key in project.clj
     - The configuration file in .sealog/config.edn
+    - The configuration file in .wallbrew/sealog/config.edn
     - The default configuration"
   [project]
-  (let [project-config      (:sealog project)
-        config-file-exists? (io/file-exists? config/config-file)]
+  (let [project-config             (:sealog project)
+        config-file-exists?        (io/file-exists? config/config-file)
+        backup-config-file-exists? (io/file-exists? config/backup-config-file)]
     (cond
-      (map? project-config) project-config
-      config-file-exists?   (io/read-edn-file! config/config-file ::config/config)
-      :else                 (do (main/info "No configuration file found. Assuming default configuration.")
-                                config/default-config))))
+      (map? project-config)      project-config
+      config-file-exists?        (io/read-edn-file! config/config-file ::config/config)
+      backup-config-file-exists? (io/read-edn-file! config/backup-config-file ::config/config)
+      :else                      (do (main/info "No configuration file found. Assuming default configuration.")
+                                      config/default-config))))
 
 (defn load-config!
   "Load the configuration file with the following precedence:
@@ -152,7 +155,8 @@
   "Returns true if the sealog configuration exists either in project.clj or in the configuration file."
   [project]
   (or (:sealog project)
-      (io/file-exists? config/config-file)))
+      (io/file-exists? config/config-file)
+      (io/file-exists? config/backup-config-file)))
 
 
 (defn configure!
