@@ -9,6 +9,7 @@
             [leiningen.sealog.types.config :as config]
             [spec-tools.core :as st]))
 
+
 (defn select-config
   "Select the configuration to use with the following precedence:
     - The `:sealog` key in project.clj
@@ -24,7 +25,8 @@
       config-file-exists?        (io/read-edn-file! config/config-file ::config/config)
       backup-config-file-exists? (io/read-edn-file! config/backup-config-file ::config/config)
       :else                      (do (main/info "No configuration file found. Assuming default configuration.")
-                                      config/default-config))))
+                                     config/default-config))))
+
 
 (defn load-config!
   "Load the configuration file with the following precedence:
