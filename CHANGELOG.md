@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
+* [1.8.0 - 2024-10-13](#180---2024-10-13)
 * [1.7.0 - 2024-09-21](#170---2024-09-21)
 * [1.6.0 - 2024-05-03](#160---2024-05-03)
 * [1.5.0 - 2024-05-03](#150---2024-05-03)
@@ -17,6 +18,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 * [1.0.2 - 2022-12-11](#102---2022-12-11)
 * [1.0.1 - 2022-10-23](#101---2022-10-23)
 * [1.0.0 - 2022-10-23](#100---2022-10-23)
+
+## 1.8.0 - 2024-10-13
+
+* Added
+  * Support for loading configuration from `project.clj`.
+  * Support for loading configuration from `.wallbrew/sealog/config.edn`.
 
 ## 1.7.0 - 2024-09-21
 

@@ -9,6 +9,11 @@
   ".sealog/config.edn")
 
 
+(def ^:const backup-config-file
+  "The secondary name of the configuration file."
+  ".wallbrew/sealog/config.edn")
+
+
 (spec/def ::changelog-filename
   (st/spec
     {:type        :string

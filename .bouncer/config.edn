@@ -1,7 +1,7 @@
 {:comment       "The default configuration for Wall Brew projects."
  :project-rules {:license {:comment  "https://github.com/Wall-Brew-Co/open-source?tab=readme-ov-file#licensing"
                            :disabled false}
-                 :plugins {:disabled          false,
+                 :plugins {:disabled          false
                            :available-plugins [{:comment        "https://github.com/Wall-Brew-Co/rebroadcast?tab=readme-ov-file#sealog-configuration"
                                                 :plugin-name    "com.wallbrew/lein-sealog"
                                                 :plugin-version "1.6.0"}

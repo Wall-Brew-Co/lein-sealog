@@ -1,87 +1,54 @@
 (ns leiningen.sealog.impl
   (:require [clojure.edn :as edn]
-            [clojure.java.io :as io]
-            [clojure.pprint :as pp]
             [clojure.spec.alpha :as spec]
             [clojure.string :as str]
             [com.wallbrew.spoon.core :as spoon]
             [leiningen.core.main :as main]
+            [leiningen.sealog.impl.io :as io]
             [leiningen.sealog.types.changelog :as changelog]
             [leiningen.sealog.types.config :as config]
             [spec-tools.core :as st]))
 
 
-(defn list-all-files
-  "Recursively list all files within a directory."
-  [path]
-  (let [files  (io/file path)
-        dir?   (fn [f] (.isDirectory f))
-        ->path (fn [f] (.getPath f))]
-    (if (dir? files)
-      (mapv ->path (filter (complement dir?) (file-seq files)))
-      (throw (ex-info "Not a directory!" {:path path})))))
-
-
-(defn file-exists?
-  "Returns true if `path` points to a valid file"
-  [path]
-  (and (string? path)
-       (.exists (io/file path))))
-
-
-(defn write-file!
-  "This is a wrapper around `spit` that logs the filename to the console."
-  [filename content]
-  (main/info (format "Writing to %s" filename))
-  (spit filename content))
-
-
-(defn write-edn-file!
-  "Write the contents to a file as EDN."
-  [filename content {:keys [pretty-print-edn?]}]
-  (if pretty-print-edn?
-    (write-file! filename (with-out-str (pp/pprint content)))
-    (write-file! filename content)))
-
-
-(defn read-file!
-  "This is a wrapper around `slurp` that logs the filename to the console."
-  [filename]
-  (main/info (format "Reading from %s" filename))
-  (slurp filename))
-
-
-(defn read-edn-file!
-  "Reads an EDN file and returns the contents as a map.
-   Throws an exception if the file does not exist, or if the contents do not coerce"
-  [filename spec]
-  (if (file-exists? filename)
-    (let [file-content (edn/read-string (read-file! filename))
-          contents     (st/coerce spec file-content st/string-transformer)]
-      (if (spec/valid? spec contents)
-        contents
-        (throw (ex-info (str "Invalid file contents: " filename)
-                        {:filename filename
-                         :errors   (spec/explain-data spec contents)}))))
-    (throw (ex-info "Not matching file exists!"
-                    {:filename filename}))))
+(defn select-config
+  "Select the configuration to use with the following precedence:
+    - The `:sealog` key in project.clj
+    - The configuration file in .sealog/config.edn
+    - The configuration file in .wallbrew/sealog/config.edn
+    - The default configuration"
+  [project]
+  (let [project-config             (:sealog project)
+        config-file-exists?        (io/file-exists? config/config-file)
+        backup-config-file-exists? (io/file-exists? config/backup-config-file)]
+    (cond
+      (map? project-config)      project-config
+      config-file-exists?        (io/read-edn-file! config/config-file ::config/config)
+      backup-config-file-exists? (io/read-edn-file! config/backup-config-file ::config/config)
+      :else                      (do (main/info "No configuration file found. Assuming default configuration.")
+                                     config/default-config))))
 
 
 (defn load-config!
-  "Load the configuration file."
-  []
-  (if (file-exists? config/config-file)
-    (read-edn-file! config/config-file ::config/config)
-    (do (main/info "No configuration file found. Assuming default configuration.")
-        config/default-config)))
+  "Load the configuration file with the following precedence:
+    - The `:sealog` key in project.clj
+    - The configuration file in .sealog/config.edn
+    - The default configuration
+
+   If the configuration is invalid, print a warning and exit."
+  [project]
+  (let [config (select-config project)]
+    (if (spec/valid? ::config/config config)
+      config
+      (do (main/warn (format "Invalid configuration file contents: %s" (spec/explain-str ::config/config config)))
+          (main/exit 1)))))
 
 
 (defn load-changelog-entry-directory!
   "Load the changelog directory into a map of version to changelog entries."
   [{:keys [changelog-entry-directory] :as _config}]
-  (let [files   (list-all-files changelog-entry-directory)
+  (let [files   (io/list-all-files changelog-entry-directory)
         reducer (fn [acc file]
-                  (let [content (read-edn-file! file ::changelog/entry)]
+                  (let [content (io/read-edn-file! file ::changelog/entry)]
                     (conj acc content)))]
     (reduce reducer [] files)))
 
@@ -89,7 +56,7 @@
 (defn sealog-initialized?
   "Returns true if the sealog directory exists."
   [{:keys [changelog-entry-directory] :as config}]
-  (if (file-exists? changelog-entry-directory)
+  (if (io/file-exists? changelog-entry-directory)
     (boolean (seq (load-changelog-entry-directory! config)))
     false))
 
@@ -182,29 +149,29 @@
   (let [initial-entry          (changelog/initialize version-scheme)
         initial-entry-filename (str changelog-entry-directory (changelog/render-filename initial-entry))
         entry                  (update initial-entry :timestamp str)]
-    (io/make-parents (io/file initial-entry-filename))
-    (write-edn-file! initial-entry-filename entry config)))
+    (io/create-file initial-entry-filename)
+    (io/write-edn-file! initial-entry-filename entry config)))
 
 
 (defn sealog-configured?
-  "Returns true if the sealog configuration file exists."
-  []
-  (file-exists? config/config-file))
+  "Returns true if the sealog configuration exists either in project.clj or in the configuration file."
+  [project]
+  (or (:sealog project)
+      (io/file-exists? config/config-file)
+      (io/file-exists? config/backup-config-file)))
 
 
 (defn configure!
   "Create a new configuration file."
   [_opts]
-  (io/make-parents (io/file config/config-file))
-  (write-file! config/config-file config/default-config))
+  (io/create-file config/config-file)
+  (io/write-file! config/config-file config/default-config))
 
 
 (defn valid-configuration?
   "Returns true if the configuration is valid."
-  []
-  (let [configuration-contents (if (file-exists? config/config-file)
-                                 (edn/read-string (read-file! config/config-file))
-                                 config/default-config)
+  [project]
+  (let [configuration-contents (select-config project)
         contents               (st/coerce ::config/config configuration-contents st/string-transformer)
         valid?                 (spec/valid? ::config/config contents)]
     (if valid?
@@ -217,7 +184,7 @@
 (defn changelog-entry-directory-is-not-empty?
   "Returns true if the changelog entry directory is not empty."
   [{:keys [changelog-entry-directory] :as _configuration}]
-  (let [has-files? (boolean (seq (list-all-files changelog-entry-directory)))]
+  (let [has-files? (boolean (seq (io/list-all-files changelog-entry-directory)))]
     (if has-files?
       (do (main/info "Changelog entry directory contains at least one file.")
           true)
@@ -228,9 +195,9 @@
 (defn changelog-directory-only-contains-valid-files?
   "Returns true if the changelog entry directory only contains valid files."
   [{:keys [changelog-entry-directory] :as _configuration}]
-  (let [files      (list-all-files changelog-entry-directory)
+  (let [files      (io/list-all-files changelog-entry-directory)
         valid?     (fn [filepath]
-                     (let [file-content (edn/read-string (read-file! filepath))
+                     (let [file-content (edn/read-string (io/read-file! filepath))
                            contents     (st/coerce ::changelog/entry file-content st/string-transformer)]
                        (if (spec/valid? ::changelog/entry contents)
                          true
@@ -248,9 +215,9 @@
 (defn all-changelog-entries-use-same-version-type?
   "Returns true if all changelog entries use the same version type."
   [{:keys [changelog-entry-directory] :as _configuration}]
-  (let [files         (list-all-files changelog-entry-directory)
+  (let [files         (io/list-all-files changelog-entry-directory)
         reducer       (fn [acc filepath]
-                        (let [content (edn/read-string (read-file! filepath))]
+                        (let [content (edn/read-string (io/read-file! filepath))]
                           (conj acc (:version-type content))))
         version-types (vec (distinct (reduce reducer [] files)))]
     (if (= 1 (count version-types))
@@ -263,9 +230,9 @@
 (defn all-changelog-entries-have-distinct-versions?
   "Returns true if all changelog entries have distinct versions."
   [{:keys [changelog-entry-directory] :as _configuration}]
-  (let [files         (list-all-files changelog-entry-directory)
+  (let [files         (io/list-all-files changelog-entry-directory)
         reducer       (fn [acc filepath]
-                        (let [content (edn/read-string (read-file! filepath))]
+                        (let [content (edn/read-string (io/read-file! filepath))]
                           (conj acc (:version content))))
         versions      (vec (distinct (reduce reducer [] files)))]
     (if (= (count files) (count versions))

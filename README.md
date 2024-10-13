@@ -22,7 +22,7 @@ Sealog is available as a leiningen plugin and can be downloaded from [clojars](h
 To install Sealog, add the following in your `:plugins` list in your `project.clj` file:
 
 ```clj
-[com.wallbrew/lein-sealog "1.4.0"]
+[com.wallbrew/lein-sealog "1.7.0"]
 ```
 
 The first time you invoke this plugin, Leiningen will automatically fetch the dependency for you.
@@ -39,11 +39,11 @@ From the root of your project directory, you may invoke the following commands:
 * `check` - To validate Sealog's configuration, changelog entry files, the changelog, and the project version
 * `help` - To view the help text of sealog or any command
 
-Most commands will accept several options, which can be configured by the command line arguments passed in or by a configuration file located at `.sealog/config.edn`.
+Most commands will accept several options, which can be configured by the command line arguments passed in or in [project configuration](#configuration).
 In all cases, the options will follow this order of precedence:
 
 1. Arguments passed by command line
-2. Values stored in `.sealog/config.edn`
+2. Values stored in configuration
 3. Default values in Sealog's implementation
 
 ### Initialize Sealog
@@ -337,7 +337,13 @@ Empty change lists may be kept for consistency or removed.
 
 Many of Sealog's commands may be modified at execution time with additional arguments.
 Long-term decisions, such as where the Changelog should be written to, can also be configured in a static file.
-As of version `1.1.0`, Sealog will inspect the local `.sealog/config.edn` file for configuration.
+As of version `1.7.0`, Sealog will inspect the following locations for configuration.
+The first location found will be used, and the others will be ignored:
+
+- The `:sealog` key in the project's `project.clj` file
+- The `.sealog/config.edn` file, relative to the project's root
+- The `.wallbrew/sealog/config.edn` file, relative to the project's root
+- The default configuration that would be written by `lein sealog init`
 
 Sealog will create this file while executing `lein sealog init` if no prior Sealog configuration file is detected.
 The file will be created with the defaults outlined in this README.

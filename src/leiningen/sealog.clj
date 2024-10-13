@@ -140,10 +140,10 @@
   (let [command (first args)
         options (rest args)]
     (case command
-      "init"    (sealog/init options)
-      "bump"    (sealog/bump-version options)
-      "render"  (sealog/render-changelog options)
-      "insert"  (sealog/insert-entry options)
+      "init"    (sealog/init project options)
+      "bump"    (sealog/bump-version project options)
+      "render"  (sealog/render-changelog project options)
+      "insert"  (sealog/insert-entry project options)
       "version" (sealog/display-version project options)
       "check"   (sealog/check project options)
       "help"    (help options)

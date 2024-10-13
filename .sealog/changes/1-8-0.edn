@@ -1,0 +1,12 @@
+{:version      {:major 1
+                :minor 8
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      ["Support for loading configuration from `project.clj`."
+                             "Support for loading configuration from `.wallbrew/sealog/config.edn`."]
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2024-10-13T16:09:40.636206814Z"}
