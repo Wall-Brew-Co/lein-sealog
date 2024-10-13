@@ -4,15 +4,16 @@
    This namespace contains the public functions that are called by the leiningen"
   (:require [leiningen.core.main :as main]
             [leiningen.sealog.impl :as impl]
+            [leiningen.sealog.impl.io :as io]
             [leiningen.sealog.types.changelog :as changelog]
             [leiningen.sealog.types.commands :as commands]))
 
 
 (defn init
   "Create a new changelog directory."
-  [_opts]
-  (let [configuration (impl/load-config!)]
-    (if (impl/sealog-configured?)
+  [project _options]
+  (let [configuration (impl/load-config! project)]
+    (if (impl/sealog-configured? project)
       (main/info "Sealog configuration found.")
       (impl/configure! configuration))
     (if (impl/sealog-initialized? configuration)
@@ -22,52 +23,52 @@
 
 (defn render-changelog
   "Render the changelog to the target file."
-  [opts]
-  (let [configuration    (impl/load-config!)
-        filepath         (or (first opts) (:changelog-filename configuration))
+  [project options]
+  (let [configuration    (impl/load-config! project)
+        filepath         (or (first options) (:changelog-filename configuration))
         changelog        (impl/load-changelog-entry-directory! configuration)
         sorted-changelog (changelog/sort-changelog-descending changelog)
         changes          (impl/render-changelog sorted-changelog)]
-    (impl/write-file! filepath changes)
+    (io/write-file! filepath changes)
     (main/info (format "Wrote changelog to: %s" filepath))))
 
 
 (defn bump-version
   "Create a new changelog entry for the version bump."
-  [opts]
-  (let [configuration       (impl/load-config!)
+  [project options]
+  (let [configuration       (impl/load-config! project)
         changelog-directory (:changelog-entry-directory configuration)
-        bump-type           (keyword (or (first opts) "patch"))
+        bump-type           (keyword (or (first options) "patch"))
         changelog           (impl/load-changelog-entry-directory! configuration)
         new-entry           (update (changelog/bump changelog bump-type) :timestamp str)
         new-file            (str changelog-directory (changelog/render-filename new-entry))]
-    (impl/write-edn-file! new-file new-entry configuration)
+    (io/write-edn-file! new-file new-entry configuration)
     (println (format "Created new changelog entry: %s" new-file))))
 
 
 (defn insert-entry
   "Insert a note of a specified change type into the most current change file."
-  [opts]
-  (let [change-type  (first opts)
-        change-notes (rest opts)]
+  [project options]
+  (let [change-type  (first options)
+        change-notes (rest options)]
     (if (commands/valid-insert-command? change-type change-notes)
-      (let [configuration           (impl/load-config!)
+      (let [configuration           (impl/load-config! project)
             changelog-directory     (:changelog-entry-directory configuration)
             changelog               (impl/load-changelog-entry-directory! configuration)
             latest-changelog-entry  (changelog/max-version changelog)
             updated-changelog-entry (changelog/insert latest-changelog-entry change-type change-notes)
             updated-entry-filename  (str changelog-directory (changelog/render-filename updated-changelog-entry))]
-        (impl/write-edn-file! updated-entry-filename updated-changelog-entry configuration)
-        (println (format "Updated changelog entries: %s" updated-entry-filename)))
-      (System/exit 1))))
+        (io/write-edn-file! updated-entry-filename updated-changelog-entry configuration)
+        (main/info (format "Updated changelog entries: %s" updated-entry-filename)))
+      (main/exit 1))))
 
 
 (defn display-version
   "Display information about the current version."
-  [project opts]
-  (let [version-source (first opts)]
+  [project options]
+  (let [version-source (first options)]
     (if (commands/valid-version-command? version-source)
-      (let [configuration          (impl/load-config!)
+      (let [configuration          (impl/load-config! project)
             changelog              (impl/load-changelog-entry-directory! configuration)
             latest-changelog-entry (changelog/max-version changelog)
             sealog-version         (changelog/render-version latest-changelog-entry)
@@ -77,14 +78,14 @@
           "sealog"      (main/info sealog-version)
           (do (main/info (str "project.clj: " leiningen-version))
               (main/info (str "sealog: " sealog-version)))))
-      (System/exit 1))))
+      (main/exit 1))))
 
 
 (defn check
   "Check the current configuration, changelog entries, and the current project version."
   [project _opts]
-  (if (impl/valid-configuration?)
-    (let [configuration                (impl/load-config!)
+  (if (impl/valid-configuration? project)
+    (let [configuration                (impl/load-config! project)
           some-changelog-entries?      (impl/changelog-entry-directory-is-not-empty? configuration)
           all-changelog-entries-valid? (impl/changelog-directory-only-contains-valid-files? configuration)
           same-version-type?           (impl/all-changelog-entries-use-same-version-type? configuration)
@@ -97,6 +98,6 @@
               changelog-rendered? (impl/rendered-changelog-contains-all-changelog-entries? configuration)]
           (if (and versions-match? changelog-rendered?)
             (main/info "All checks passed")
-            (System/exit 1)))
-        (System/exit 1)))
-    (System/exit 1)))
+            (main/exit 1)))
+        (main/exit 1)))
+    (main/exit 1)))
