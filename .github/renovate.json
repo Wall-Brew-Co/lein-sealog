@@ -1,9 +1,17 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "assigneesFromCodeOwners": true,
     "automerge": true,
+    "branchPrefix": "dependencies/",
+    "commitBodyTable": true,
+    "configMigration": true,
+    "configWarningReuseIssue": false,
     "extends": [
-        "config:base"
+        "config:recommended"
     ],
+    "github-actions": {
+        "enabled": false
+    },
     "labels": [
         "dependencies",
         "automated"
@@ -14,9 +22,14 @@
             "after 11am and before 8pm on monday"
         ]
     },
-    "assigneesFromCodeOwners": true,
-    "branchPrefix": "dependencies/",
-    "commitBodyTable": true,
+    "packageRules": [
+        {
+            "matchDatasources": [
+                "npm"
+            ],
+            "minimumReleaseAge": "3 days"
+        }
+    ],
     "rebaseWhen": "behind-base-branch",
     "reviewersFromCodeOwners": true,
     "schedule": [
