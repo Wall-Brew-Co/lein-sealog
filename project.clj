@@ -14,7 +14,7 @@
                  [java-time-literals/java-time-literals "2018-04-06"]
                  [metosin/spec-tools "0.10.7"]
                  [org.clojure/clojure "1.12.0"]]
-  :plugins [[com.github.clj-kondo/lein-clj-kondo "2024.09.27"]
+  :plugins [[com.github.clj-kondo/lein-clj-kondo "2024.11.14"]
             [com.wallbrew/bouncer "1.1.1"]
             [com.wallbrew/lein-sealog "1.8.0"]
             [mvxcvi/cljstyle "0.16.630"]]
