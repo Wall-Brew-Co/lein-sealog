@@ -47,3 +47,7 @@
   (prop/for-all
     [changes (spec/gen ::changelog/changelog)]
     (string? (sut/render-changelog changes))))
+
+(deftest meta->name-test
+  (is (= "leiningen.sealog.impl/meta->name"
+         (sut/meta->name (meta #'sut/meta->name)))))

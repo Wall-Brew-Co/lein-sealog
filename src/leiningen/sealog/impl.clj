@@ -269,3 +269,78 @@
           true)
       (do (main/warn "Rendered changelog does not contain all changelog entries. Please run `lein sealog render`.")
           false))))
+
+(defn load-public-internal-meta
+  "Loads all namespaces currently available, and uses that to look up all public vars.
+   That list is filtered down to include only the vars with `:file` metadata that are children of the current directory."
+  []
+  (let [user-directory  (System/getProperty "user.dir")
+        all-public-meta (map meta (mapcat vals (map ns-publics (all-ns))))]
+    (assert (string? user-directory)
+            "Cannot determine current directory with the `user.dir` property.")
+    (->> all-public-meta
+         (remove #(not (string? (:file %))))
+         (filter #(str/includes? (:file %) user-directory)))))
+
+(defn changed-this-version?
+  "Determine if the `change-line` metadata is relevant for `current-version`"
+  [change-line current-version]
+  (cond
+    (string? change-line)     (= change-line current-version)
+    (sequential? change-line) (seq (filter #(= % current-version) change-line))
+    (map? change-line)        (contains? change-line current-version)))
+
+(defn parse-changes
+  "Parse the metadata of a var, and see if it has any changes for the current version."
+  [{:keys [added changed deprecated removed fixed security]} current-version]
+  (set
+   (remove nil?
+           [(when (changed-this-version? added current-version) :added)
+            (when (changed-this-version? changed current-version) :changed)
+            (when (changed-this-version? deprecated current-version) :deprecated)
+            (when (changed-this-version? removed current-version) :removed)
+            (when (changed-this-version? fixed current-version) :fixed)
+            (when (changed-this-version? security current-version) :security)])))
+
+(defn meta->name
+  "Parse function metadata to extract a human-readable name"
+  [metadata]
+  (str (:ns metadata)
+       "/"
+       (:name metadata)))
+
+(defn locate-impacted-vars
+  "Loads all namespaces currently available, and uses that to look up all public vars.
+   That list is filtered down to include only the vars with `:file` metadata that are children of the current directory.
+   The metadata for those vars is inspected for keys matching the changelog keys and `current-version`:
+    - :added
+    - :changed
+    - :deprecated
+    - :removed
+    - :fixed
+    - :security"
+  [current-version]
+  (let [public-meta (load-public-internal-meta)]
+    (reduce (fn parse-version-meta
+              [acc v]
+              (let [changelog-data (select-keys v [:added :changed :deprecated :removed :fixed :security])
+                    var-name       (meta->name v)]
+                (if (empty? changelog-data)
+                  acc
+                  (let [changes-this-version (parse-changes changelog-data current-version)]
+                    (if (empty changed-this-version?)
+                      acc
+                      (cond-> acc
+                        (:added changes-this-version) (update :added conj var-name)
+                        (:changed changes-this-version) (update :changed conj var-name)
+                        (:deprecated changes-this-version) (update :deprecated conj var-name)
+                        (:removed changes-this-version) (update :removed conj var-name)
+                        (:fixed changes-this-version) (update :fixed conj var-name)
+                        (:security changes-this-version) (update :security conj var-name)))))))
+            {:added      #{}
+             :changed    #{}
+             :deprecated #{}
+             :removed    #{}
+             :fixed      #{}
+             :security  #{}}
+            public-meta)))
