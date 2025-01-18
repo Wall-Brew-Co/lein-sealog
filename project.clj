@@ -15,7 +15,7 @@
                  [metosin/spec-tools "0.10.7"]
                  [org.clojure/clojure "1.12.0"]]
   :plugins [[com.github.clj-kondo/lein-clj-kondo "2025.01.16"]
-            [com.wallbrew/bouncer "1.1.1"]
+            [com.wallbrew/bouncer "1.2.0"]
             [com.wallbrew/lein-sealog "1.8.0"]
             [mvxcvi/cljstyle "0.17.642"]]
   :profiles {:dev {:dependencies [[org.clojure/test.check "1.1.1"]]}}
