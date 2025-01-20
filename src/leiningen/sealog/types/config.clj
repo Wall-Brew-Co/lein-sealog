@@ -41,10 +41,11 @@
     {:type        :boolean
      :description "Whether or not to pretty print the EDN files."}))
 
+
 (spec/def ::remove-commas-in-change-files?
   (st/spec
-   {:type :boolean
-    :description "Wether or not the map delimiter commas inserted by clojure.pprint should be removed when creating a new change file."}))
+    {:type :boolean
+     :description "Wether or not the map delimiter commas inserted by clojure.pprint should be removed when creating a new change file."}))
 
 
 (spec/def ::config

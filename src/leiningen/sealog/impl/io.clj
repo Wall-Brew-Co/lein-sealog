@@ -38,10 +38,12 @@
   (main/info (format "Writing to %s" filename))
   (spit filename content))
 
+
 (defn ->pretty-string
   "Return `m` as a pretty printed string"
   [m]
   (with-out-str (pp/pprint m)))
+
 
 (defn write-edn-file!
   "Write the contents to a file as EDN."
