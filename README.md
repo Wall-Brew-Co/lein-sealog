@@ -22,7 +22,7 @@ Sealog is available as a leiningen plugin and can be downloaded from [clojars](h
 To install Sealog, add the following in your `:plugins` list in your `project.clj` file:
 
 ```clj
-[com.wallbrew/lein-sealog "1.7.0"]
+[com.wallbrew/lein-sealog "1.9.0"]
 ```
 
 The first time you invoke this plugin, Leiningen will automatically fetch the dependency for you.
@@ -340,10 +340,10 @@ Long-term decisions, such as where the Changelog should be written to, can also 
 As of version `1.7.0`, Sealog will inspect the following locations for configuration.
 The first location found will be used, and the others will be ignored:
 
-- The `:sealog` key in the project's `project.clj` file
-- The `.sealog/config.edn` file, relative to the project's root
-- The `.wallbrew/sealog/config.edn` file, relative to the project's root
-- The default configuration that would be written by `lein sealog init`
+* The `:sealog` key in the project's `project.clj` file
+* The `.sealog/config.edn` file, relative to the project's root
+* The `.wallbrew/sealog/config.edn` file, relative to the project's root
+* The default configuration that would be written by `lein sealog init`
 
 Sealog will create this file while executing `lein sealog init` if no prior Sealog configuration file is detected.
 The file will be created with the defaults outlined in this README.
@@ -359,6 +359,8 @@ The following keys and values are supported:
     * `:semver3` - [3 Position Semantic Versioning 2.0](https://semver.org/)
 * `:pretty-print-edn?`
   * A boolean to determine if the .edn config and changelog entry files should be pretty printed. Defaults to false
+* `:remove-commas-in-change-files?`
+  * A boolean to remove the commas automatically inserted between key:value pairs in printed versions of changelog entry files. Defaults to false
 
 ## License
 

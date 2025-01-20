@@ -1,9 +1,6 @@
 (ns leiningen.sealog
-  ;; The first line prints as the task description in `lein help`
-  "Update your changelog, programatically.
-
-   Main namespace for the sealog plugin.
-   Provides the entry point for leiningen and basic help functions."
+  ;; The ns docstring prints as the task description in `lein help`
+  "Update your changelog, programmatically."
   (:require [leiningen.core.main :as main]
             [leiningen.sealog.api :as sealog]))
 
