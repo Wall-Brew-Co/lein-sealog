@@ -41,6 +41,11 @@
     {:type        :boolean
      :description "Whether or not to pretty print the EDN files."}))
 
+(spec/def ::remove-commas-in-change-files?
+  (st/spec
+   {:type :boolean
+    :description "Ether or not the map delimiter commas inserted by clojure.pprint should be removed when creating a new change file."}))
+
 
 (spec/def ::config
   (st/spec
@@ -48,13 +53,15 @@
      :spec        (spec/keys :opt-un [::changelog-filename
                                       ::changelog-entry-directory
                                       ::version-scheme
-                                      ::pretty-print-edn?])
+                                      ::pretty-print-edn?
+                                      ::remove-commas-in-change-files?])
      :description "The configuration for Sealog."}))
 
 
 (def default-config
   "The default configuration for Sealog."
-  {:changelog-filename        "CHANGELOG.md"
-   :changelog-entry-directory ".sealog/changes/"
-   :version-scheme            :semver3
-   :pretty-print-edn?         false})
+  {:changelog-filename             "CHANGELOG.md"
+   :changelog-entry-directory      ".sealog/changes/"
+   :version-scheme                 :semver3
+   :pretty-print-edn?              false
+   :remove-commas-in-change-files? false})
