@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## Table of Contents
 
+* [1.9.0 - 2025-01-20](#190---2025-01-20)
 * [1.8.0 - 2024-10-13](#180---2024-10-13)
 * [1.7.0 - 2024-09-21](#170---2024-09-21)
 * [1.6.0 - 2024-05-03](#160---2024-05-03)
@@ -19,6 +20,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 * [1.0.1 - 2022-10-23](#101---2022-10-23)
 * [1.0.0 - 2022-10-23](#100---2022-10-23)
 
+## 1.9.0 - 2025-01-20
+
+* Added
+  * Added a new configuration key `:remove-commas-in-change-files?` to remove automatically printed commas in change entry files.
+
 ## 1.8.0 - 2024-10-13
 
 * Added
@@ -28,7 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## 1.7.0 - 2024-09-21
 
 * Fixed
-  * Added the `<orgnization>` tag to the pom.xml file.
+  * Added the `<organization>` tag to the pom.xml file.
 
 ## 1.6.0 - 2024-05-03
 
