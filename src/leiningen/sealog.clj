@@ -1,9 +1,6 @@
 (ns leiningen.sealog
-  ;; The first line prints as the task description in `lein help`
-  "Update your changelog, programatically.
-
-   Main namespace for the sealog plugin.
-   Provides the entry point for leiningen and basic help functions."
+  ;; The ns docstring prints as the task description in `lein help`
+  "Update your changelog, programmatically."
   (:require [leiningen.core.main :as main]
             [leiningen.sealog.api :as sealog]))
 
@@ -27,7 +24,7 @@
   (main/info "  render  - Render the changelog to the target file.")
   (main/info "  insert  - Insert a note of a specified change type into the most current change file.")
   (main/info "  version - Display information about the current version.")
-  (main/info "  check   - Check the current configuration, changelog etries, and the current project version.")
+  (main/info "  check   - Check the current configuration, changelog entries, and the current project version.")
   (main/info "  help    - Display this help message.")
   (main/info "")
   (main/info "Run `lein sealog help <command>` for more information on a specific command."))
@@ -73,7 +70,7 @@
   []
   (main/info "Usage: lein sealog insert <change-type> \"<change-message>\" \"<change-message>\" ...")
   (main/info "")
-  (main/info "Insert a note of a specfied `<change type> into the most current change file.")
+  (main/info "Insert a note of a specified `<change type> into the most current change file.")
   (main/info "Requires at least one `<change-message>` to be provided.")
   (main/info "However, multiple `<change-message>` can be provided.")
   (main/info "")
@@ -102,7 +99,7 @@
   []
   (main/info "Usage: lein sealog check")
   (main/info "")
-  (main/info "Check the current configuration, changelog etries, and the current project version.")
+  (main/info "Check the current configuration, changelog entries, and the current project version.")
   (main/info "Will exit abnormally if any issues are found.")
   (main/info "")
   (main/info "Checks:")
@@ -135,7 +132,7 @@
 
 
 (defn sealog
-  "Manage youur changelog, programatically."
+  "Manage your changelog, programmatically."
   [project & args]
   (let [command (first args)
         options (rest args)]

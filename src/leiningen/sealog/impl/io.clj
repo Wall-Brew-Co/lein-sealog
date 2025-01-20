@@ -4,6 +4,7 @@
             [clojure.java.io :as io]
             [clojure.pprint :as pp]
             [clojure.spec.alpha :as spec]
+            [clojure.string :as str]
             [leiningen.core.main :as main]
             [spec-tools.core :as st]))
 
@@ -38,12 +39,20 @@
   (spit filename content))
 
 
+(defn ->pretty-string
+  "Return `m` as a pretty printed string"
+  [m]
+  (with-out-str (pp/pprint m)))
+
+
 (defn write-edn-file!
   "Write the contents to a file as EDN."
-  [filename content {:keys [pretty-print-edn?]}]
-  (if pretty-print-edn?
-    (write-file! filename (with-out-str (pp/pprint content)))
-    (write-file! filename content)))
+  [filename content {:keys [pretty-print-edn? remove-commas-in-change-files?]}]
+  (let [beautified-content (cond-> content
+                             pretty-print-edn?              ->pretty-string
+                             (not pretty-print-edn?)        str
+                             remove-commas-in-change-files? (str/replace #"," ""))]
+    (write-file! filename beautified-content)))
 
 
 (defn read-file!

@@ -11,6 +11,7 @@
     (is (test-util/generatable? ::sut/changelog-entry-directory))
     (is (test-util/generatable? ::sut/version-scheme))
     (is (test-util/generatable? ::sut/pretty-print-edn?))
+    (is (test-util/generatable? ::sut/remove-commas-in-change-files?))
     (is (test-util/generatable? ::sut/config))))
 
 

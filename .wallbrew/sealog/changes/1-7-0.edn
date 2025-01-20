@@ -6,6 +6,6 @@
                 :changed    []
                 :deprecated []
                 :removed    []
-                :fixed      ["Added the `<orgnization>` tag to the pom.xml file."]
+                :fixed      ["Added the `<organization>` tag to the pom.xml file."]
                 :security   []}
  :timestamp    "2024-09-21T16:27:46.206002976Z"}

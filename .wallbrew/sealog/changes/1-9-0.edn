@@ -1,0 +1,11 @@
+{:version      {:major 1
+                :minor 9
+                :patch 0}
+ :version-type :semver3
+ :changes      {:added      ["Added a new configuration key `:remove-commas-in-change-files?` to remove automatically printed commas in change entry files."]
+                :changed    []
+                :deprecated []
+                :removed    []
+                :fixed      []
+                :security   []}
+ :timestamp    "2025-01-20T17:55:02.695874Z"}
