@@ -13,7 +13,7 @@
   :dependencies [[com.wallbrew/spoon "1.5.0"]
                  [java-time-literals/java-time-literals "2018-04-06"]
                  [metosin/spec-tools "0.10.7"]
-                 [org.clojure/clojure "1.12.0"]]
+                 [org.clojure/clojure "1.12.1"]]
   :plugins [[com.github.clj-kondo/lein-clj-kondo "2025.04.07"]
             [com.wallbrew/bouncer "1.2.0"]
             [com.wallbrew/lein-sealog "1.9.0"]
