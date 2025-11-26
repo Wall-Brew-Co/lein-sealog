@@ -18,7 +18,7 @@
             [com.wallbrew/bouncer "1.2.0"]
             [com.wallbrew/lein-sealog "1.9.0"]
             [mvxcvi/cljstyle "0.17.642"]]
-  :profiles {:dev {:dependencies [[org.clojure/test.check "1.1.1"]]}}
+  :profiles {:dev {:dependencies [[org.clojure/test.check "1.1.2"]]}}
   :deploy-repositories [["clojars" {:url           "https://clojars.org/repo"
                                     :username      :env/clojars_user
                                     :password      :env/clojars_pass
